@@ -8,5 +8,20 @@
             "name": "Przemek Wiejak",
             "email": "przemek@wiejak.app"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "WP\\ImageCrop\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WP\\ImageCrop\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "require-dev": {
+    }
 }
