@@ -8,16 +8,16 @@
 
 declare(strict_types=1);
 
-namespace WP\ImageCrop\Reader;
+namespace WP\ImageCrop\Writer;
 
-use WP\ImageCrop\Manager\ReaderManager;
+use WP\ImageCrop\Manager\WriterManager;
 
 /**
- * Class AbstractReader
+ * Class AbstractWriter
  *
- * @package WP\ImageCrop\Reader
+ * @package WP\ImageCrop\Writer
  */
-abstract class AbstractReader
+abstract class AbstractWriter
 {
     /**
      * @var string
@@ -25,7 +25,7 @@ abstract class AbstractReader
     protected $class;
 
     /**
-     * @var ReaderManager
+     * @var WriterManager
      */
     protected $manager;
 
@@ -45,11 +45,11 @@ abstract class AbstractReader
     protected $resource;
 
     /**
-     * AbstractReader constructor.
+     * AbstractWriter constructor.
      *
-     * @param ReaderManager $manager
+     * @param WriterManager $manager
      */
-    public function __construct(ReaderManager $manager)
+    public function __construct(WriterManager $manager)
     {
         $this->manager = $manager;
     }
@@ -73,18 +73,18 @@ abstract class AbstractReader
     }
 
     /**
-     * @return ReaderManager
+     * @return WriterManager
      */
-    public function getManager(): ReaderManager
+    public function getManager(): WriterManager
     {
         return $this->manager;
     }
 
     /**
-     * @param ReaderManager $manager
+     * @param WriterManager $manager
      * @return self
      */
-    public function setManager(ReaderManager $manager): self
+    public function setManager(WriterManager $manager): self
     {
         $this->manager = $manager;
         return $this;
@@ -157,14 +157,14 @@ abstract class AbstractReader
      * @param string|null $destination
      * @return void
      */
-    public function load(string $source, ?string $destination = null): void
-    {
+    public function load(string $source, ?string $destination = null): void {
         $this->source = $source;
         $this->resource = $this->createResource();
 
-        if ($destination) {
+        if($destination) {
             $this->destination = $destination;
-        } else {
+        }
+        else {
             $this->destination = $this->manager->getTempFile($this->class);
         }
     }

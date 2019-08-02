@@ -1,6 +1,6 @@
 <?php
 /**
- * (c) Przemek Wiejak <przmek@wiejak.app>
+ * (c) Przemek Wiejak <przemek@wiejak.app>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace WP\ImageCrop;
 
-use WP\ImageCrop\Core\Manager;
+use WP\ImageCrop\Manager\ReaderManager;
 use WP\ImageCrop\Reader\AbstractReader;
 
 /**
@@ -20,73 +20,52 @@ use WP\ImageCrop\Reader\AbstractReader;
  */
 class ImageCrop
 {
-    private $manager;
-
     /**
-     * @var string
+     * @var ReaderManager
      */
-    private $pathSource;
+    private $readerManager;
 
-    /**
-     * @var AbstractReader|null
-     */
-    private $reader;
-
-    /**
-     * ImageCrop constructor.
-     *
-     * @param string $pathSource
-     */
-    public function __construct(string $pathSource)
+    public function __construct()
     {
-        $this->manager = new Manager(__FILE__);
-        $this->pathSource = $pathSource;
+        $this->readerManager = new ReaderManager();
     }
 
     /**
-     * @return AbstractReader|null
+     * @param string $class
+     * @return AbstractReader
      */
-    public function getReader(): ?AbstractReader
+    public function getReader(string $class): AbstractReader
     {
-        return $this->reader;
+        return $this->readerManager->getReader($class);
     }
 
     /**
-     * @param string $reader
+     * @param AbstractReader $reader
      * @return self
      */
-    public function setReader(string $reader): self
+    public function cropY(AbstractReader $reader): self
     {
-        $this->reader = $reader;
-        return $this;
-    }
-
-
-    public function vertical(string $path): string
-    {
-        // create temp file path
-        $temp = \tempnam(\sys_get_temp_dir(), 'image_');
-
-        // create image resource
-        $image = \imagecreatefromjpeg($path);
+        $resource = $reader->getResource();
 
         // image parameters
         $top = 0;
+        $right = null;
         $bottom = 0;
+        $left = null
 
         // find most top non-white pixel
-        for (; $top < \imagesy($image); ++$top) {
-            for ($x = 0; $x < \imagesx($image); ++$x) {
-                if (\imagecolorat($image, $x, $top) != 0xFFFFFF) {
+        for (; $top < \imagesy($resource); ++$top) {
+            for ($x = 0; $x < \imagesx($resource); ++$x) {
+                if (\imagecolorat($resource, $x, $top) != 0xFFFFFF) {
                     break 2;
                 }
             }
         }
 
         // find most bottom non-white pixel
-        for (; $bottom < \imagesy($image); ++$bottom) {
-            for ($x = 0; $x < imagesx($image); ++$x) {
-                if (\imagecolorat($image, $x, \imagesy($image) - $bottom - 1) != 0xFFFFFF) {
+        for (; $bottom < \imagesy($resource); ++$bottom) {
+            for ($x = 0; $x < imagesx($resource); ++$x) {
+                if (\imagecolorat($resource, $x, \imagesy($resource) - $bottom - 1) != 0xFFFFFF) {
                     break 2;
                 }
             }
@@ -94,13 +73,22 @@ class ImageCrop
 
         \imagejpeg( // create image resource
             \imagecrop( // crop resource
-                $image,
-                ['x' => 0, 'y' => $top, 'width' => \imagesx($image), 'height' => (\imagesy($image) - ($top + $bottom))]
+                $resource,
+                ['x' => 0, 'y' => $top, 'width' => \imagesx($resource), 'height' => (\imagesy($resource) - ($top + $bottom))]
             ),
-            $temp,
+            $reader->getDestination(),
             100
         );
 
-        return $temp;
+        return $this;
+    }
+
+    /**
+     * @param AbstractReader $reader
+     * @return string
+     */
+    public function contents(AbstractReader $reader): string
+    {
+        return \file_get_contents($reader->getDestination());
     }
 }
