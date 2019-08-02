@@ -1,0 +1,12 @@
+{
+    "name": "pwiejak/image-crop",
+    "description": "Image Crop Library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Przemek Wiejak",
+            "email": "przemek@wiejak.app"
+        }
+    ]
+}
