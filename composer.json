@@ -11,12 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "wiejakp\\ImageCrop\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "wiejakp\\ImageCrop\\": "tests/"
+            "wiejakp\\ImageCrop\\": "src"
         }
     },
     "require": {
