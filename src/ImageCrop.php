@@ -8,15 +8,15 @@
 
 declare(strict_types=1);
 
-namespace WP\ImageCrop;
+namespace wiejakp\ImageCrop;
 
-use WP\ImageCrop\Manager\ReaderManager;
-use WP\ImageCrop\Reader\AbstractReader;
+use wiejakp\ImageCrop\Manager\ReaderManager;
+use wiejakp\ImageCrop\Reader\AbstractReader;
 
 /**
  * Class ImageCrop
  *
- * @package WP\ImageCrop
+ * @package wiejakp\ImageCrop
  */
 class ImageCrop
 {
@@ -51,7 +51,7 @@ class ImageCrop
         $top = 0;
         $right = null;
         $bottom = 0;
-        $left = null
+        $left = null;
 
         // find most top non-white pixel
         for (; $top < \imagesy($resource); ++$top) {

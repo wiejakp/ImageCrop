@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace WP\ImageCrop\Crop;
+namespace wiejakp\ImageCrop\Crop;
 
 /**
  * Class CropY
  *
- * @package WP\ImageCrop\Crop
+ * @package wiejakp\ImageCrop\Crop
  */
 class CropY extends AbstractCrop
 {

@@ -11,12 +11,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "WP\\ImageCrop\\": "src/"
+            "wiejakp\\ImageCrop\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "WP\\ImageCrop\\": "tests/"
+            "wiejakp\\ImageCrop\\": "tests/"
         }
     },
     "require": {

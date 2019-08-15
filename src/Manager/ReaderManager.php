@@ -8,14 +8,14 @@
 
 declare(strict_types=1);
 
-namespace WP\ImageCrop\Manager;
+namespace wiejakp\ImageCrop\Manager;
 
-use WP\ImageCrop\Reader\AbstractReader;
+use wiejakp\ImageCrop\Reader\AbstractReader;
 
 /**
  * Class ReaderManager
  *
- * @package WP\ImageCrop\Manager
+ * @package wiejakp\ImageCrop\Manager
  */
 class ReaderManager extends AbstractManager
 {

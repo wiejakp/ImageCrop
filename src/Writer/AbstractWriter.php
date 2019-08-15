@@ -8,14 +8,14 @@
 
 declare(strict_types=1);
 
-namespace WP\ImageCrop\Writer;
+namespace wiejakp\ImageCrop\Writer;
 
-use WP\ImageCrop\Manager\WriterManager;
+use wiejakp\ImageCrop\Manager\WriterManager;
 
 /**
  * Class AbstractWriter
  *
- * @package WP\ImageCrop\Writer
+ * @package wiejakp\ImageCrop\Writer
  */
 abstract class AbstractWriter
 {

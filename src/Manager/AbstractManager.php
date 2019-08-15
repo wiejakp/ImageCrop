@@ -8,14 +8,14 @@
 
 declare(strict_types=1);
 
-namespace WP\ImageCrop\Manager;
+namespace wiejakp\ImageCrop\Manager;
 
-use WP\ImageCrop\ImageCrop;
+use wiejakp\ImageCrop\ImageCrop;
 
 /**
  * Class AbstractManager
  *
- * @package WP\ImageCrop\Manager
+ * @package wiejakp\ImageCrop\Manager
  */
 abstract class AbstractManager
 {
