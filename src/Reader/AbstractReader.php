@@ -57,7 +57,7 @@ abstract class AbstractReader
     /**
      * @return string
      */
-    public function getClass(): string
+    protected function getClass(): string
     {
         return $this->class;
     }
@@ -66,7 +66,7 @@ abstract class AbstractReader
      * @param string $class
      * @return self
      */
-    public function setClass(string $class): self
+    protected function setClass(string $class): self
     {
         $this->class = $class;
         return $this;
@@ -91,42 +91,6 @@ abstract class AbstractReader
     }
 
     /**
-     * @return string|null
-     */
-    public function getSource(): ?string
-    {
-        return $this->source;
-    }
-
-    /**
-     * @param string|null $source
-     * @return self
-     */
-    public function setSource(?string $source): self
-    {
-        $this->source = $source;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDestination(): ?string
-    {
-        return $this->destination;
-    }
-
-    /**
-     * @param string|null $destination
-     * @return self
-     */
-    public function setDestination(?string $destination): self
-    {
-        $this->destination = $destination;
-        return $this;
-    }
-
-    /**
      * @return false|resource|null
      */
     public function getResource()
@@ -145,27 +109,17 @@ abstract class AbstractReader
     }
 
     /**
-     * @return false|resource|null
+     * @return string
      */
-    public function createResource()
-    {
-        return null;
+    public function write(): string {
+        trigger_error('Do Not Call Directly');
     }
 
     /**
-     * @param string      $source
-     * @param string|null $destination
+     * @param string $path
      * @return void
      */
-    public function load(string $source, ?string $destination = null): void
-    {
-        $this->source = $source;
-        $this->resource = $this->createResource();
-
-        if ($destination) {
-            $this->destination = $destination;
-        } else {
-            $this->destination = $this->manager->getTempFile($this->class);
-        }
+    public function loadFromPath(string $path): void {
+        trigger_error('Do Not Call Directly');
     }
 }

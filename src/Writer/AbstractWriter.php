@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace wiejakp\ImageCrop\Writer;
 
 use wiejakp\ImageCrop\Manager\WriterManager;
+use wiejakp\ImageCrop\Reader\AbstractReader;
 
 /**
  * Class AbstractWriter
@@ -30,19 +31,9 @@ abstract class AbstractWriter
     protected $manager;
 
     /**
-     * @var string|null
+     * @var AbstractReader
      */
-    protected $source;
-
-    /**
-     * @var string|null
-     */
-    protected $destination;
-
-    /**
-     * @var false|resource|null
-     */
-    protected $resource;
+    protected $reader;
 
     /**
      * AbstractWriter constructor.
@@ -57,7 +48,7 @@ abstract class AbstractWriter
     /**
      * @return string
      */
-    public function getClass(): string
+    protected function getClass(): string
     {
         return $this->class;
     }
@@ -66,7 +57,7 @@ abstract class AbstractWriter
      * @param string $class
      * @return self
      */
-    public function setClass(string $class): self
+    protected function setClass(string $class): self
     {
         $this->class = $class;
         return $this;
@@ -91,81 +82,11 @@ abstract class AbstractWriter
     }
 
     /**
+     * @param AbstractReader $reader
      * @return string|null
      */
-    public function getSource(): ?string
-    {
-        return $this->source;
-    }
-
-    /**
-     * @param string|null $source
-     * @return self
-     */
-    public function setSource(?string $source): self
-    {
-        $this->source = $source;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDestination(): ?string
-    {
-        return $this->destination;
-    }
-
-    /**
-     * @param string|null $destination
-     * @return self
-     */
-    public function setDestination(?string $destination): self
-    {
-        $this->destination = $destination;
-        return $this;
-    }
-
-    /**
-     * @return false|resource|null
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
-     * @param false|resource|null $resource
-     * @return self
-     */
-    public function setResource($resource): self
-    {
-        $this->resource = $resource;
-        return $this;
-    }
-
-    /**
-     * @return false|resource|null
-     */
-    public function createResource()
+    public function write(AbstractReader $reader): ?string
     {
         return null;
-    }
-
-    /**
-     * @param string      $source
-     * @param string|null $destination
-     * @return void
-     */
-    public function load(string $source, ?string $destination = null): void {
-        $this->source = $source;
-        $this->resource = $this->createResource();
-
-        if($destination) {
-            $this->destination = $destination;
-        }
-        else {
-            $this->destination = $this->manager->getTempFile($this->class);
-        }
     }
 }
