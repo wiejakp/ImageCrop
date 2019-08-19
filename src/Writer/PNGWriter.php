@@ -14,11 +14,11 @@ use wiejakp\ImageCrop\Manager\WriterManager;
 use wiejakp\ImageCrop\Reader\AbstractReader;
 
 /**
- * Class JPEGWriter
+ * Class PNGWriter
  *
  * @package wiejakp\ImageCrop\Writer
  */
-class JPEGWriter extends AbstractWriter
+class PNGWriter extends AbstractWriter
 {
     /**
      * JPEGWriter constructor.
@@ -38,7 +38,7 @@ class JPEGWriter extends AbstractWriter
      */
     public function write(AbstractReader $reader): string
     {
-        \imagejpeg($reader->getResource(), $this->getPath());
+        \imagepng($reader->getResource(), $this->getPath());
 
         return $this->getPath();
     }

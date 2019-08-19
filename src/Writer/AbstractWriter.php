@@ -36,6 +36,11 @@ abstract class AbstractWriter
     protected $reader;
 
     /**
+     * @var string
+     */
+    protected $path;
+
+    /**
      * AbstractWriter constructor.
      *
      * @param WriterManager $manager
@@ -82,11 +87,41 @@ abstract class AbstractWriter
     }
 
     /**
+     * @return string
+     */
+    public function getPath(): string
+    {
+        if (empty($this->path)) {
+            $this->path = $this->manager->getTempFile($this->getClass());
+        }
+
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     * @return self
+     */
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
      * @param AbstractReader $reader
      * @return string|null
      */
     public function write(AbstractReader $reader): ?string
     {
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getData(): string
+    {
+        return \file_get_contents($this->getPath());
     }
 }

@@ -32,6 +32,14 @@ class ImageCrop
      */
     private $writerManager;
 
+    /**
+     * @var bool
+     */
+    private $empty = false;
+
+    /**
+     * ImageCrop constructor.
+     */
     public function __construct()
     {
         $this->readerManager = new ReaderManager();
@@ -57,6 +65,14 @@ class ImageCrop
     }
 
     /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return $this->empty;
+    }
+
+    /**
      * @param AbstractReader $reader
      * @return self
      */
@@ -75,12 +91,21 @@ class ImageCrop
             }
         }
 
+        $newWidth = \imagesx($original);
+        $newHeight = \imagesy($original) - $top;
+
+        if (0 === $newWidth || 0 === $newHeight) {
+            $this->empty = true;
+        }
+
         $modified = \imagecrop(
             $original,
-            ['x' => 0, 'y' => $top, 'width' => \imagesx($original), 'height' => (\imagesy($original) - $top)]
+            ['x' => 0, 'y' => $top, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        $reader->setResource($modified);
+        if ($modified) {
+            $reader->setResource($modified);
+        }
 
         return $this;
     }
@@ -104,12 +129,21 @@ class ImageCrop
             }
         }
 
+        $newWidth = \imagesx($original) - $right;
+        $newHeight = \imagesy($original);
+
+        if (0 === $newWidth || 0 === $newHeight) {
+            $this->empty = true;
+        }
+
         $modified = \imagecrop(
             $original,
-            ['x' => 0, 'y' => 0, 'width' => (\imagesx($original) - $right), 'height' => \imagesy($original)]
+            ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        $reader->setResource($modified);
+        if ($modified) {
+            $reader->setResource($modified);
+        }
 
         return $this;
     }
@@ -133,12 +167,21 @@ class ImageCrop
             }
         }
 
+        $newWidth = \imagesx($original);
+        $newHeight = \imagesy($original) - $bottom;
+
+        if (0 === $newWidth || 0 === $newHeight) {
+            $this->empty = true;
+        }
+
         $modified = \imagecrop(
             $original,
-            ['x' => 0, 'y' => 0, 'width' => \imagesx($original), 'height' => (\imagesy($original) - $bottom)]
+            ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        $reader->setResource($modified);
+        if ($modified) {
+            $reader->setResource($modified);
+        }
 
         return $this;
     }
@@ -162,75 +205,22 @@ class ImageCrop
             }
         }
 
-        $modified = \imagecrop(
-            $original,
-            ['x' => $left, 'y' => 0, 'width' => (\imagesx($original) - $left), 'height' => \imagesy($original)]
-        );
+        $newWidth = \imagesx($original) - $left;
+        $newHeight = \imagesy($original);
 
-        $reader->setResource($modified);
-
-        return $this;
-    }
-
-    /**
-     * @param AbstractReader $reader
-     * @return self
-     */
-    public function cropY(AbstractReader $reader): self
-    {
-        $original = $reader->getResource();
-
-        // image parameters
-        $top = 0;
-        $right = null;
-        $bottom = 0;
-        $left = null;
-
-        // find most top non-white pixel
-        for (; $top < \imagesy($original); ++$top) {
-            for ($x = 0; $x < \imagesx($original); ++$x) {
-                if (\imagecolorat($original, $x, $top) != 0xFFFFFF) {
-                    break 2;
-                }
-            }
-        }
-
-        // find most bottom non-white pixel
-        for (; $bottom < \imagesy($original); ++$bottom) {
-            for ($x = 0; $x < imagesx($original); ++$x) {
-                if (\imagecolorat($original, $x, \imagesy($original) - $bottom - 1) != 0xFFFFFF) {
-                    break 2;
-                }
-            }
+        if (0 === $newWidth || 0 === $newHeight) {
+            $this->empty = true;
         }
 
         $modified = \imagecrop(
             $original,
-            ['x' => 0, 'y' => $top, 'width' => \imagesx($original), 'height' => (\imagesy($original) - ($top + $bottom))]
+            ['x' => $left, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        $reader->setResource($modified);
-
-        /*
-        \imagejpeg( // create image resource
-            \imagecrop( // crop resource
-                $resource,
-                ['x' => 0, 'y' => $top, 'width' => \imagesx($resource), 'height' => (\imagesy($resource) - ($top + $bottom))]
-            ),
-            $reader->getDestination(),
-            100
-        );
-        */
+        if ($modified) {
+            $reader->setResource($modified);
+        }
 
         return $this;
-    }
-
-    /**
-     * @param AbstractReader $reader
-     * @return string
-     */
-    public function contents(AbstractReader $reader): string
-    {
-        return \file_get_contents($reader->getDestination());
     }
 }
