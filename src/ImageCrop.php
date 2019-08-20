@@ -13,7 +13,12 @@ namespace wiejakp\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 use wiejakp\ImageCrop\Manager\WriterManager;
 use wiejakp\ImageCrop\Reader\AbstractReader;
+use wiejakp\ImageCrop\Reader\JPEGReader;
 use wiejakp\ImageCrop\Writer\AbstractWriter;
+use wiejakp\ImageCrop\Writer\BMPWriter;
+use wiejakp\ImageCrop\Writer\GIFWriter;
+use wiejakp\ImageCrop\Writer\JPEGWriter;
+use wiejakp\ImageCrop\Writer\PNGWriter;
 
 /**
  * Class ImageCrop
@@ -33,6 +38,16 @@ class ImageCrop
     private $writerManager;
 
     /**
+     * @var AbstractReader|JPEGReader|null
+     */
+    private $reader;
+
+    /**
+     * @var AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     */
+    private $writer;
+
+    /**
      * @var bool
      */
     private $empty = false;
@@ -47,22 +62,79 @@ class ImageCrop
     }
 
     /**
-     * @param string $class
-     * @return AbstractReader
+     * @return AbstractReader|JPEGReader|null
      */
+    public function getReader(): ?AbstractReader
+    {
+        return $this->reader;
+    }
+
+    /**
+     * @param string|JPEGReader $reader
+     * @return self
+     * @throws \Exception
+     */
+    public function setReader($reader): self
+    {
+        switch (true) {
+            case \is_string($reader):
+                $this->reader = $this->readerManager->getReader($reader);
+                break;
+
+            case \is_subclass_of($reader, AbstractReader::class):
+                $this->reader = $reader;
+                break;
+
+            default:
+                throw new \Exception('Suggested Reader is not supported.');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     */
+    public function getWriter(): ?AbstractWriter
+    {
+        return $this->writer;
+    }
+
+    /**
+     * @param string|BMPWriter|GIFWriter|JPEGWriter|PNGWriter $writer
+     * @return self
+     * @throws \Exception
+     */
+    public function setWriter($writer): self
+    {
+        switch (true) {
+            case \is_string($writer):
+                $this->writer = $this->writerManager->getWriter($writer);
+                break;
+
+            case \is_subclass_of($writer, AbstractWriter::class):
+                $this->writer = $writer;
+                break;
+
+            default:
+                throw new \Exception('Suggested Writer is not supported.');
+        }
+
+        return $this;
+    }
+
+    /*
     public function getReader(string $class): AbstractReader
     {
         return $this->readerManager->getReader($class);
     }
 
-    /**
-     * @param string $class
-     * @return AbstractWriter
-     */
     public function getWriter(string $class): AbstractWriter
     {
         return $this->writerManager->getWriter($class);
     }
+    */
+
 
     /**
      * @return bool
