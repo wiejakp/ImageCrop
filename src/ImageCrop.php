@@ -13,7 +13,12 @@ namespace wiejakp\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 use wiejakp\ImageCrop\Manager\WriterManager;
 use wiejakp\ImageCrop\Reader\AbstractReader;
+use wiejakp\ImageCrop\Reader\JPEGReader;
 use wiejakp\ImageCrop\Writer\AbstractWriter;
+use wiejakp\ImageCrop\Writer\BMPWriter;
+use wiejakp\ImageCrop\Writer\GIFWriter;
+use wiejakp\ImageCrop\Writer\JPEGWriter;
+use wiejakp\ImageCrop\Writer\PNGWriter;
 
 /**
  * Class ImageCrop
@@ -33,6 +38,21 @@ class ImageCrop
     private $writerManager;
 
     /**
+     * @var AbstractReader|JPEGReader|null
+     */
+    private $reader;
+
+    /**
+     * @var AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     */
+    private $writer;
+
+    /**
+     * @var array
+     */
+    private $rgba = ['red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 0];
+
+    /**
      * @var bool
      */
     private $empty = false;
@@ -42,26 +62,91 @@ class ImageCrop
      */
     public function __construct()
     {
-        $this->readerManager = new ReaderManager();
-        $this->writerManager = new WriterManager();
+        $this->readerManager = new ReaderManager($this);
+        $this->writerManager = new WriterManager($this);
     }
 
     /**
-     * @param string $class
-     * @return AbstractReader
+     * @return AbstractReader|JPEGReader|null
      */
-    public function getReader(string $class): AbstractReader
+    public function getReader(): ?AbstractReader
     {
-        return $this->readerManager->getReader($class);
+        return $this->reader;
     }
 
     /**
-     * @param string $class
-     * @return AbstractWriter
+     * @param string|JPEGReader $reader
+     * @return self
+     * @throws \Exception
      */
-    public function getWriter(string $class): AbstractWriter
+    public function setReader($reader): self
     {
-        return $this->writerManager->getWriter($class);
+        switch (true) {
+            case \is_string($reader):
+                $this->reader = $this->readerManager->getReader($reader);
+                break;
+
+            case \is_subclass_of($reader, AbstractReader::class):
+                $this->reader = $reader;
+                break;
+
+            default:
+                throw new \Exception('Suggested Reader is not supported.');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     */
+    public function getWriter(): ?AbstractWriter
+    {
+        return $this->writer;
+    }
+
+    /**
+     * @param string|BMPWriter|GIFWriter|JPEGWriter|PNGWriter $writer
+     * @return self
+     * @throws \Exception
+     */
+    public function setWriter($writer): self
+    {
+        switch (true) {
+            case \is_string($writer):
+                $this->writer = $this->writerManager->getWriter($writer);
+                break;
+
+            case \is_subclass_of($writer, AbstractWriter::class):
+                $this->writer = $writer;
+                break;
+
+            default:
+                throw new \Exception('Suggested Writer is not supported.');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRGBA(): array
+    {
+        return $this->rgba;
+    }
+
+    /**
+     * @param int $red
+     * @param int $green
+     * @param int $blue
+     * @param int $alpha
+     * @return self
+     */
+    public function setRGBA(int $red, int $green, int $blue, int $alpha): self
+    {
+        $this->rgba = ['red' => $red, 'green' => $green, 'blue' => $blue, 'alpha' => $alpha];
+        return $this;
     }
 
     /**
@@ -73,19 +158,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropTop(AbstractReader $reader): self
+    public function cropTop(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $top = 0;
 
         for (; $top < \imagesy($original); ++$top) {
             for ($x = 0; $x < \imagesx($original); ++$x) {
-                if (\imagecolorat($original, $x, $top) != 0xFFFFFF) {
+                if (false === $this->isColorMatch($original, $x, $top)) {
                     break 2;
                 }
             }
@@ -111,19 +194,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropRight(AbstractReader $reader): self
+    public function cropRight(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $right = 0;
 
         for (; $right < \imagesx($original); ++$right) {
-            for ($x = 0; $x < \imagesy($original); ++$x) {
-                if (\imagecolorat($original, \imagesx($original) - $right - 1, $x) != 0xFFFFFF) {
+            for ($y = 0; $y < \imagesy($original); ++$y) {
+                if (false === $this->isColorMatch($original, \imagesx($original) - $right, $y)) {
                     break 2;
                 }
             }
@@ -149,19 +230,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropBottom(AbstractReader $reader): self
+    public function cropBottom(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $bottom = 0;
 
         for (; $bottom < \imagesy($original); ++$bottom) {
             for ($x = 0; $x < \imagesx($original); ++$x) {
-                if (\imagecolorat($original, $x, \imagesy($original) - $bottom - 1) != 0xFFFFFF) {
+                if (false === $this->isColorMatch($original, $x, \imagesy($original) - $bottom - 1)) {
                     break 2;
                 }
             }
@@ -187,19 +266,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropLeft(AbstractReader $reader): self
+    public function cropLeft(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $left = 0;
 
         for (; $left < \imagesx($original); ++$left) {
             for ($y = 0; $y < \imagesy($original); ++$y) {
-                if (\imagecolorat($original, $left, $y) != 0xFFFFFF) {
+                if (false === $this->isColorMatch($original, $left, $y)) {
                     break 2;
                 }
             }
@@ -222,5 +299,19 @@ class ImageCrop
         }
 
         return $this;
+    }
+
+    /**
+     * @param resource $resource
+     * @param int      $x
+     * @param int      $y
+     * @return bool
+     */
+    private function isColorMatch($resource, int $x, int $y): bool
+    {
+        list($ar, $ag, $ab, $aa) = \array_values($this->getRGBA());
+        list($br, $bg, $bb, $ba) = \array_values(\imagecolorsforindex($resource, \imagecolorat($resource, $x, $y)));
+
+        return $ar === $br && $ag === $bg && $ab === $bb && $aa <= $ba;
     }
 }

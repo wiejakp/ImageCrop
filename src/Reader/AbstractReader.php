@@ -91,10 +91,15 @@ abstract class AbstractReader
     }
 
     /**
-     * @return false|resource|null
+     * @return false|resource
+     * @throws \Exception
      */
     public function getResource()
     {
+        if (null === $this->resource) {
+            throw new \Exception('Resource was never set.');
+        }
+
         return $this->resource;
     }
 
@@ -109,17 +114,20 @@ abstract class AbstractReader
     }
 
     /**
-     * @return string
+     * @param string $path
+     * @return self
      */
-    public function write(): string {
-        trigger_error('Do Not Call Directly');
+    public function loadFromPath(string $path)
+    {
+        \trigger_error('Do Not Call Directly');
+        return $this;
     }
 
     /**
-     * @param string $path
-     * @return void
+     * @return string
      */
-    public function loadFromPath(string $path): void {
-        trigger_error('Do Not Call Directly');
+    public function getName(): string
+    {
+        return $this->getManager()->getShortName($this->getClass());
     }
 }
