@@ -109,11 +109,11 @@ abstract class AbstractWriter
     }
 
     /**
-     * @param AbstractReader $reader
      * @return string|null
      */
-    public function write(AbstractReader $reader): ?string
+    public function write(): ?string
     {
+        \trigger_error('Do Not Call Directly');
         return null;
     }
 
@@ -123,5 +123,13 @@ abstract class AbstractWriter
     public function getData(): string
     {
         return \file_get_contents($this->getPath());
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->getManager()->getShortName($this->getClass());
     }
 }

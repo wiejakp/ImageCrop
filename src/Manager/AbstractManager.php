@@ -20,16 +20,32 @@ use wiejakp\ImageCrop\ImageCrop;
 abstract class AbstractManager
 {
     /**
+     * @var ImageCrop
+     */
+    protected $core;
+
+    /**
      * @var string
      */
     protected $namespace;
 
     /**
      * AbstractManager constructor.
+     *
+     * @param ImageCrop $core
      */
-    public function __construct()
+    public function __construct(ImageCrop $core)
     {
+        $this->core = $core;
         $this->namespace = (new \ReflectionClass(ImageCrop::class))->getNamespaceName();
+    }
+
+    /**
+     * @return ImageCrop
+     */
+    public function getCore(): ImageCrop
+    {
+        return $this->core;
     }
 
     /**

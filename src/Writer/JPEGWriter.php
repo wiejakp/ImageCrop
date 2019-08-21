@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace wiejakp\ImageCrop\Writer;
 
 use wiejakp\ImageCrop\Manager\WriterManager;
-use wiejakp\ImageCrop\Reader\AbstractReader;
 
 /**
  * Class JPEGWriter
@@ -33,12 +32,11 @@ class JPEGWriter extends AbstractWriter
     }
 
     /**
-     * @param AbstractReader $reader
      * @return string
      */
-    public function write(AbstractReader $reader): string
+    public function write(): string
     {
-        \imagejpeg($reader->getResource(), $this->getPath());
+        \imagejpeg($this->getManager()->getCore()->getReader()->getResource(), $this->getPath());
 
         return $this->getPath();
     }

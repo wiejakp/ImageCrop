@@ -48,6 +48,11 @@ class ImageCrop
     private $writer;
 
     /**
+     * @var array
+     */
+    private $rgba = ['red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 0];
+
+    /**
      * @var bool
      */
     private $empty = false;
@@ -57,8 +62,8 @@ class ImageCrop
      */
     public function __construct()
     {
-        $this->readerManager = new ReaderManager();
-        $this->writerManager = new WriterManager();
+        $this->readerManager = new ReaderManager($this);
+        $this->writerManager = new WriterManager($this);
     }
 
     /**
@@ -123,18 +128,26 @@ class ImageCrop
         return $this;
     }
 
-    /*
-    public function getReader(string $class): AbstractReader
+    /**
+     * @return array
+     */
+    public function getRGBA(): array
     {
-        return $this->readerManager->getReader($class);
+        return $this->rgba;
     }
 
-    public function getWriter(string $class): AbstractWriter
+    /**
+     * @param int $red
+     * @param int $green
+     * @param int $blue
+     * @param int $alpha
+     * @return self
+     */
+    public function setRGBA(int $red, int $green, int $blue, int $alpha): self
     {
-        return $this->writerManager->getWriter($class);
+        $this->rgba = ['red' => $red, 'green' => $green, 'blue' => $blue, 'alpha' => $alpha];
+        return $this;
     }
-    */
-
 
     /**
      * @return bool
@@ -145,19 +158,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropTop(AbstractReader $reader): self
+    public function cropTop(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $top = 0;
 
         for (; $top < \imagesy($original); ++$top) {
             for ($x = 0; $x < \imagesx($original); ++$x) {
-                if (\imagecolorat($original, $x, $top) != 0xFFFFFF) {
+                if (false === $this->isColorMatch($original, $x, $top)) {
                     break 2;
                 }
             }
@@ -183,19 +194,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropRight(AbstractReader $reader): self
+    public function cropRight(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $right = 0;
 
         for (; $right < \imagesx($original); ++$right) {
-            for ($x = 0; $x < \imagesy($original); ++$x) {
-                if (\imagecolorat($original, \imagesx($original) - $right - 1, $x) != 0xFFFFFF) {
+            for ($y = 0; $y < \imagesy($original); ++$y) {
+                if (false === $this->isColorMatch($original, \imagesx($original) - $right, $y)) {
                     break 2;
                 }
             }
@@ -221,19 +230,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropBottom(AbstractReader $reader): self
+    public function cropBottom(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $bottom = 0;
 
         for (; $bottom < \imagesy($original); ++$bottom) {
             for ($x = 0; $x < \imagesx($original); ++$x) {
-                if (\imagecolorat($original, $x, \imagesy($original) - $bottom - 1) != 0xFFFFFF) {
+                if (false === $this->isColorMatch($original, $x, \imagesy($original) - $bottom - 1)) {
                     break 2;
                 }
             }
@@ -259,19 +266,17 @@ class ImageCrop
     }
 
     /**
-     * @param AbstractReader $reader
      * @return self
      */
-    public function cropLeft(AbstractReader $reader): self
+    public function cropLeft(): self
     {
+        $reader = $this->reader;
         $original = $reader->getResource();
-
-        // image parameters
         $left = 0;
 
         for (; $left < \imagesx($original); ++$left) {
             for ($y = 0; $y < \imagesy($original); ++$y) {
-                if (\imagecolorat($original, $left, $y) != 0xFFFFFF) {
+                if (false === $this->isColorMatch($original, $left, $y)) {
                     break 2;
                 }
             }
@@ -294,5 +299,19 @@ class ImageCrop
         }
 
         return $this;
+    }
+
+    /**
+     * @param resource $resource
+     * @param int      $x
+     * @param int      $y
+     * @return bool
+     */
+    private function isColorMatch($resource, int $x, int $y): bool
+    {
+        list($ar, $ag, $ab, $aa) = \array_values($this->getRGBA());
+        list($br, $bg, $bb, $ba) = \array_values(\imagecolorsforindex($resource, \imagecolorat($resource, $x, $y)));
+
+        return $ar === $br && $ag === $bg && $ab === $bb && $aa <= $ba;
     }
 }

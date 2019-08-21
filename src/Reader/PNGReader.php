@@ -13,14 +13,14 @@ namespace wiejakp\ImageCrop\Reader;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 
 /**
- * Class JPEGReader
+ * Class PNGReader
  *
  * @package wiejakp\ImageCrop\Reader
  */
-class JPEGReader extends AbstractReader
+class PNGReader extends AbstractReader
 {
     /**
-     * JPEG constructor.
+     * PNGReader constructor.
      *
      * @param ReaderManager $manager
      */
@@ -39,7 +39,7 @@ class JPEGReader extends AbstractReader
     public function loadFromPath(string $path)
     {
         try {
-            $this->resource = \imagecreatefromjpeg($path);
+            $this->resource = \imagecreatefrompng($path);
         } catch (\Exception $exception) {
             throw new \Exception(
                 \sprintf('Provided file is not compatible with %s reader.', $this->getName())
