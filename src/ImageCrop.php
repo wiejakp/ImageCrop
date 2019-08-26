@@ -13,7 +13,10 @@ namespace wiejakp\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 use wiejakp\ImageCrop\Manager\WriterManager;
 use wiejakp\ImageCrop\Reader\AbstractReader;
+use wiejakp\ImageCrop\Reader\BMPReader;
+use wiejakp\ImageCrop\Reader\GIFReader;
 use wiejakp\ImageCrop\Reader\JPEGReader;
+use wiejakp\ImageCrop\Reader\PNGReader;
 use wiejakp\ImageCrop\Writer\AbstractWriter;
 use wiejakp\ImageCrop\Writer\BMPWriter;
 use wiejakp\ImageCrop\Writer\GIFWriter;
@@ -75,7 +78,7 @@ class ImageCrop
     }
 
     /**
-     * @param string|JPEGReader $reader
+     * @param string|BMPReader|GIFReader|JPEGReader|PNGReader $reader
      * @return self
      * @throws \Exception
      */
