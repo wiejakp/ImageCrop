@@ -36,7 +36,11 @@ class BMPWriter extends AbstractWriter
      */
     public function write(): string
     {
-        \imagebmp($this->getManager()->getCore()->getReader()->getResource(), $this->getPath());
+        $resource = $this->getManager()->getCore()->getReader()->getResource();
+
+        if ($resource) {
+            \imagebmp($resource, $this->getPath());
+        }
 
         return $this->getPath();
     }

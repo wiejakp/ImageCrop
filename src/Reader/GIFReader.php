@@ -33,10 +33,11 @@ class GIFReader extends AbstractReader
 
     /**
      * @param string $path
-     * @return $this|void|AbstractReader
+     *
+     * @return self
      * @throws \Exception
      */
-    public function loadFromPath(string $path)
+    public function loadFromPath(string $path): self
     {
         try {
             $this->resource = \imagecreatefromgif($path);

@@ -41,12 +41,12 @@ class ImageCrop
     private $writerManager;
 
     /**
-     * @var AbstractReader|JPEGReader|null
+     * @var AbstractReader|BMPReader|GIFReader|JPEGReader|PNGReader
      */
     private $reader;
 
     /**
-     * @var AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     * @var AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter
      */
     private $writer;
 
@@ -70,7 +70,7 @@ class ImageCrop
     }
 
     /**
-     * @return AbstractReader|JPEGReader|null
+     * @return BMPReader|GIFReader|JPEGReader|PNGReader|null
      */
     public function getReader(): ?AbstractReader
     {
@@ -79,6 +79,7 @@ class ImageCrop
 
     /**
      * @param string|BMPReader|GIFReader|JPEGReader|PNGReader $reader
+     *
      * @return self
      * @throws \Exception
      */
@@ -101,7 +102,7 @@ class ImageCrop
     }
 
     /**
-     * @return AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     * @return BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
      */
     public function getWriter(): ?AbstractWriter
     {
@@ -110,6 +111,7 @@ class ImageCrop
 
     /**
      * @param string|BMPWriter|GIFWriter|JPEGWriter|PNGWriter $writer
+     *
      * @return self
      * @throws \Exception
      */
@@ -144,6 +146,7 @@ class ImageCrop
      * @param int $green
      * @param int $blue
      * @param int $alpha
+     *
      * @return self
      */
     public function setRGBA(int $red, int $green, int $blue, int $alpha): self
@@ -308,6 +311,7 @@ class ImageCrop
      * @param resource $resource
      * @param int      $x
      * @param int      $y
+     *
      * @return bool
      */
     private function isColorMatch($resource, int $x, int $y): bool

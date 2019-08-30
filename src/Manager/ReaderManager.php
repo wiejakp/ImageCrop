@@ -21,6 +21,7 @@ class ReaderManager extends AbstractManager
 {
     /**
      * @param string $class
+     *
      * @return AbstractReader
      * @throws \Exception
      */
@@ -42,6 +43,7 @@ class ReaderManager extends AbstractManager
 
     /**
      * @param string $class
+     *
      * @return bool
      */
     private function isReaderClass(string $class): bool

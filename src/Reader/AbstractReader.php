@@ -40,7 +40,7 @@ abstract class AbstractReader
     protected $destination;
 
     /**
-     * @var false|resource|null
+     * @var false|resource
      */
     protected $resource;
 
@@ -64,6 +64,7 @@ abstract class AbstractReader
 
     /**
      * @param string $class
+     *
      * @return self
      */
     protected function setClass(string $class): self
@@ -82,6 +83,7 @@ abstract class AbstractReader
 
     /**
      * @param ReaderManager $manager
+     *
      * @return self
      */
     public function setManager(ReaderManager $manager): self
@@ -91,7 +93,7 @@ abstract class AbstractReader
     }
 
     /**
-     * @return false|resource
+     * @return resource|false
      * @throws \Exception
      */
     public function getResource()
@@ -100,11 +102,12 @@ abstract class AbstractReader
             throw new \Exception('Resource was never set.');
         }
 
-        return $this->resource;
+        return $this->resource ?? false;
     }
 
     /**
-     * @param false|resource|null $resource
+     * @param resource $resource
+     *
      * @return self
      */
     public function setResource($resource): self
@@ -115,6 +118,7 @@ abstract class AbstractReader
 
     /**
      * @param string $path
+     *
      * @return self
      */
     public function loadFromPath(string $path)

@@ -10,4 +10,11 @@
             <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+    <logging>
+        <log type="coverage-html" target="build/coverage" />
+        <log type="coverage-text" target="build/coverage.txt" showOnlySummary="true" />
+    </logging>
 </phpunit>

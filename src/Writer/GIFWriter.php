@@ -34,9 +34,13 @@ class GIFWriter extends AbstractWriter
     /**
      * @return string
      */
-    public function write( ): string
+    public function write(): string
     {
-        \imagegif($this->getManager()->getCore()->getReader()->getResource(), $this->getPath());
+        $resource = $this->getManager()->getCore()->getReader()->getResource();
+
+        if ($resource) {
+            \imagegif($resource, $this->getPath());
+        }
 
         return $this->getPath();
     }

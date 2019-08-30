@@ -60,6 +60,7 @@ abstract class AbstractWriter
 
     /**
      * @param string $class
+     *
      * @return self
      */
     protected function setClass(string $class): self
@@ -78,6 +79,7 @@ abstract class AbstractWriter
 
     /**
      * @param WriterManager $manager
+     *
      * @return self
      */
     public function setManager(WriterManager $manager): self
@@ -100,6 +102,7 @@ abstract class AbstractWriter
 
     /**
      * @param string $path
+     *
      * @return self
      */
     public function setPath(string $path): self
@@ -118,11 +121,13 @@ abstract class AbstractWriter
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getData(): string
+    public function getData(): ?string
     {
-        return \file_get_contents($this->getPath());
+        $data = \file_get_contents($this->getPath());
+
+        return $data ?? null;
     }
 
     /**
