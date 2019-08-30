@@ -49,13 +49,13 @@ more information.
 [documentation]: https://wiejakp.github.io/ImageCrop/
 [contributing]: https://github.com/wiejakp/ImageCrop/blob/master/.github/CONTRIBUTING.md
 
-[badge-source]: http://img.shields.io/badge/source-wiejakp/ImageCrop-blue.svg?style=flat-square
-[badge-release]: https://img.shields.io/packagist/v/wiejakp/ImageCrop.svg?style=flat-square&label=release
-[badge-license]: https://img.shields.io/packagist/l/wiejakp/ImageCrop.svg?style=flat-square
-[badge-php]: https://img.shields.io/packagist/php-v/wiejakp/ImageCrop.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/wiejakp/ImageCrop/master.svg?style=flat-square
-[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/ImageCrop/master.svg?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/wiejakp/ImageCrop.svg?style=flat-square&colorB=mediumvioletred
+[badge-source]: http://img.shields.io/badge/source-wiejakp/image-crop.svg?style=flat-square
+[badge-release]: https://img.shields.io/packagist/v/wiejakp/image-crop.svg?style=flat-square&label=release
+[badge-license]: https://img.shields.io/packagist/l/wiejakp/image-crop.svg?style=flat-square
+[badge-php]: https://img.shields.io/packagist/php-v/wiejakp/image-crop.svg?style=flat-square
+[badge-build]: https://img.shields.io/travis/wiejakp/image-crop/master.svg?style=flat-square
+[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/image-crop/master.svg?style=flat-square
+[badge-downloads]: https://img.shields.io/packagist/dt/wiejakp/image-crop.svg?style=flat-square&colorB=mediumvioletred
 
 [source]: https://github.com/wiejakp/ImageCrop
 [packagist]: https://packagist.org/packages/wiejakp/ImageCrop
