@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\ReaderManager;
 
 /**
  * Class AbstractReader
- *
- * @package wiejakp\ImageCrop\Reader
  */
 abstract class AbstractReader
 {
@@ -40,7 +38,7 @@ abstract class AbstractReader
     protected $destination;
 
     /**
-     * @var false|resource
+     * @var resource|false
      */
     protected $resource;
 
@@ -52,25 +50,6 @@ abstract class AbstractReader
     public function __construct(ReaderManager $manager)
     {
         $this->manager = $manager;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getClass(): string
-    {
-        return $this->class;
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return self
-     */
-    protected function setClass(string $class): self
-    {
-        $this->class = $class;
-        return $this;
     }
 
     /**
@@ -89,20 +68,22 @@ abstract class AbstractReader
     public function setManager(ReaderManager $manager): self
     {
         $this->manager = $manager;
+
         return $this;
     }
 
     /**
-     * @return resource|false
+     * @return resource
+     *
      * @throws \Exception
      */
     public function getResource()
     {
-        if (null === $this->resource) {
+        if (null === $this->resource || false === $this->resource) {
             throw new \Exception('Resource was never set.');
         }
 
-        return $this->resource ?? false;
+        return $this->resource;
     }
 
     /**
@@ -113,6 +94,7 @@ abstract class AbstractReader
     public function setResource($resource): self
     {
         $this->resource = $resource;
+
         return $this;
     }
 
@@ -124,14 +106,38 @@ abstract class AbstractReader
     public function loadFromPath(string $path)
     {
         \trigger_error('Do Not Call Directly');
+
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        $manager = $this->getManager();
+        $name = $manager->getShortName($this->getClass());
+
+        return $name;
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    protected function getClass(): string
     {
-        return $this->getManager()->getShortName($this->getClass());
+        return $this->class;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return self
+     */
+    protected function setClass(string $class): self
+    {
+        $this->class = $class;
+
+        return $this;
     }
 }

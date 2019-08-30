@@ -25,8 +25,6 @@ use wiejakp\ImageCrop\Writer\PNGWriter;
 
 /**
  * Class ImageCrop
- *
- * @package wiejakp\ImageCrop
  */
 class ImageCrop
 {
@@ -70,9 +68,9 @@ class ImageCrop
     }
 
     /**
-     * @return BMPReader|GIFReader|JPEGReader|PNGReader|null
+     * @return AbstractReader|BMPReader|GIFReader|JPEGReader|PNGReader
      */
-    public function getReader(): ?AbstractReader
+    public function getReader()
     {
         return $this->reader;
     }
@@ -81,6 +79,7 @@ class ImageCrop
      * @param string|BMPReader|GIFReader|JPEGReader|PNGReader $reader
      *
      * @return self
+     *
      * @throws \Exception
      */
     public function setReader($reader): self
@@ -102,9 +101,9 @@ class ImageCrop
     }
 
     /**
-     * @return BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     * @return AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter
      */
-    public function getWriter(): ?AbstractWriter
+    public function getWriter()
     {
         return $this->writer;
     }
@@ -113,6 +112,7 @@ class ImageCrop
      * @param string|BMPWriter|GIFWriter|JPEGWriter|PNGWriter $writer
      *
      * @return self
+     *
      * @throws \Exception
      */
     public function setWriter($writer): self
@@ -152,6 +152,7 @@ class ImageCrop
     public function setRGBA(int $red, int $green, int $blue, int $alpha): self
     {
         $this->rgba = ['red' => $red, 'green' => $green, 'blue' => $blue, 'alpha' => $alpha];
+
         return $this;
     }
 
@@ -192,7 +193,7 @@ class ImageCrop
             ['x' => 0, 'y' => $top, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 
@@ -228,7 +229,7 @@ class ImageCrop
             ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 
@@ -264,7 +265,7 @@ class ImageCrop
             ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 
@@ -300,7 +301,7 @@ class ImageCrop
             ['x' => $left, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 

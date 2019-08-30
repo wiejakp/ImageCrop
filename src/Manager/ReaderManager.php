@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Reader\AbstractReader;
 
 /**
  * Class ReaderManager
- *
- * @package wiejakp\ImageCrop\Manager
  */
 class ReaderManager extends AbstractManager
 {
@@ -23,6 +21,7 @@ class ReaderManager extends AbstractManager
      * @param string $class
      *
      * @return AbstractReader
+     *
      * @throws \Exception
      */
     public function getReader(string $class): AbstractReader

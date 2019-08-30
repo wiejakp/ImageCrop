@@ -20,8 +20,7 @@ use wiejakp\ImageCrop\Reader\JPEGReader;
 use wiejakp\ImageCrop\Reader\PNGReader;
 
 /**
- * Class ImageCropTest
- * @package wiejakp\ImageCrop\Test
+ * @inheritDoc
  */
 class ImageCropTest extends TestCase
 {

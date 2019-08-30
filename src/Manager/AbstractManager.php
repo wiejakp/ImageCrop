@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\ImageCrop;
 
 /**
  * Class AbstractManager
- *
- * @package wiejakp\ImageCrop\Manager
  */
 abstract class AbstractManager
 {
@@ -49,8 +47,43 @@ abstract class AbstractManager
     }
 
     /**
+     * @param string|null $class
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getTempFile(?string $class = null): string
+    {
+        if (null === $class) {
+            $class = \get_class($this);
+        }
+
+        $path = \tempnam(\sys_get_temp_dir(), \sprintf('%s_', $this->getShortName($class)));
+
+        if (false === $path) {
+            throw new \Exception('Unable to fetch a temporary file.');
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return string|null
+     */
+    public function getShortName(string $class): ?string
+    {
+        $array = \explode('\\', $class);
+
+        return \array_pop($array);
+    }
+
+    /**
      * @param string $library
      * @param string $class
+     *
      * @return bool
      */
     protected function isLibraryClass(string $library, string $class): bool
@@ -59,23 +92,5 @@ abstract class AbstractManager
         $length = \strlen($namespace);
 
         return \substr($class, 0, $length) === $namespace && \class_exists($class);
-    }
-
-    /**
-     * @param string|null $class
-     * @return string
-     */
-    public function getTempFile(?string $class = null): string
-    {
-        return \tempnam(\sys_get_temp_dir(), \sprintf('%s_', $this->getShortName($class)));
-    }
-
-    /**
-     * @param string $class
-     * @return string
-     */
-    public function getShortName(string $class): string
-    {
-        return \array_pop(\explode('\\', $class));
     }
 }

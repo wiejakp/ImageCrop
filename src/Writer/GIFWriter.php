@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\WriterManager;
 
 /**
  * Class GIFWriter
- *
- * @package wiejakp\ImageCrop\Writer
  */
 class GIFWriter extends AbstractWriter
 {
@@ -38,7 +36,7 @@ class GIFWriter extends AbstractWriter
     {
         $resource = $this->getManager()->getCore()->getReader()->getResource();
 
-        if ($resource) {
+        if (false !== $resource) {
             \imagegif($resource, $this->getPath());
         }
 

@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\ReaderManager;
 
 /**
  * Class BMPReader
- *
- * @package wiejakp\ImageCrop\Reader
  */
 class BMPReader extends AbstractReader
 {
@@ -35,6 +33,7 @@ class BMPReader extends AbstractReader
      * @param string $path
      *
      * @return self
+     *
      * @throws \Exception
      */
     public function loadFromPath(string $path): self

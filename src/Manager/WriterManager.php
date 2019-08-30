@@ -14,14 +14,14 @@ use wiejakp\ImageCrop\Writer\AbstractWriter;
 
 /**
  * Class WriterManager
- *
- * @package wiejakp\ImageCrop\Manager
  */
 class WriterManager extends AbstractManager
 {
     /**
      * @param string $class
+     *
      * @return AbstractWriter
+     *
      * @throws \Exception
      */
     public function getWriter(string $class): AbstractWriter
@@ -42,6 +42,7 @@ class WriterManager extends AbstractManager
 
     /**
      * @param string $class
+     *
      * @return bool
      */
     private function isWriterClass(string $class): bool

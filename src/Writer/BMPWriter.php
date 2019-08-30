@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\WriterManager;
 
 /**
  * Class BMPWriter
- *
- * @package wiejakp\ImageCrop\Writer
  */
 class BMPWriter extends AbstractWriter
 {
@@ -38,7 +36,7 @@ class BMPWriter extends AbstractWriter
     {
         $resource = $this->getManager()->getCore()->getReader()->getResource();
 
-        if ($resource) {
+        if (false !== $resource) {
             \imagebmp($resource, $this->getPath());
         }
 

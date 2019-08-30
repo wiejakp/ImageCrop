@@ -15,8 +15,6 @@ use wiejakp\ImageCrop\Reader\AbstractReader;
 
 /**
  * Class AbstractWriter
- *
- * @package wiejakp\ImageCrop\Writer
  */
 abstract class AbstractWriter
 {
@@ -51,25 +49,6 @@ abstract class AbstractWriter
     }
 
     /**
-     * @return string
-     */
-    protected function getClass(): string
-    {
-        return $this->class;
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return self
-     */
-    protected function setClass(string $class): self
-    {
-        $this->class = $class;
-        return $this;
-    }
-
-    /**
      * @return WriterManager
      */
     public function getManager(): WriterManager
@@ -85,6 +64,7 @@ abstract class AbstractWriter
     public function setManager(WriterManager $manager): self
     {
         $this->manager = $manager;
+
         return $this;
     }
 
@@ -108,6 +88,7 @@ abstract class AbstractWriter
     public function setPath(string $path): self
     {
         $this->path = $path;
+
         return $this;
     }
 
@@ -117,6 +98,7 @@ abstract class AbstractWriter
     public function write(): ?string
     {
         \trigger_error('Do Not Call Directly');
+
         return null;
     }
 
@@ -127,14 +109,37 @@ abstract class AbstractWriter
     {
         $data = \file_get_contents($this->getPath());
 
-        return $data ?? null;
+        return $data ? $data : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        $manager = $this->getManager();
+        $name = $manager->getShortName($this->getClass());
+
+        return $name;
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    protected function getClass(): string
     {
-        return $this->getManager()->getShortName($this->getClass());
+        return $this->class;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return self
+     */
+    protected function setClass(string $class): self
+    {
+        $this->class = $class;
+
+        return $this;
     }
 }

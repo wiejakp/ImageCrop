@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\ReaderManager;
 
 /**
  * Class GIFReader
- *
- * @package wiejakp\ImageCrop\Reader
  */
 class GIFReader extends AbstractReader
 {
@@ -35,6 +33,7 @@ class GIFReader extends AbstractReader
      * @param string $path
      *
      * @return self
+     *
      * @throws \Exception
      */
     public function loadFromPath(string $path): self

@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\WriterManager;
 
 /**
  * Class PNGWriter
- *
- * @package wiejakp\ImageCrop\Writer
  */
 class PNGWriter extends AbstractWriter
 {
@@ -38,7 +36,7 @@ class PNGWriter extends AbstractWriter
     {
         $resource = $this->getManager()->getCore()->getReader()->getResource();
 
-        if ($resource) {
+        if (false !== $resource) {
             \imagepng($resource, $this->getPath());
         }
 
