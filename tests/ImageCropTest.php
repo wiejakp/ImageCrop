@@ -7,7 +7,7 @@ use wiejakp\ImageCrop\ImageCrop;
 
 class ImageCropTest extends TestCase
 {
-    public function testGetHello()
+    public function test()
     {
         $object = \Mockery::mock(ImageCrop::class);
         $object->shouldReceive('getHello')->passthru();

@@ -17,12 +17,12 @@ code.
 
 ## Installation
 
-The preferred method of installation is via [Composer][]. Run the following
+The preferred method of installation is via [Composer][composer]. Run the following
 command to install the package and add it as a requirement to your project's
 `composer.json`:
 
 ```bash
-composer require wiejakp/ImageCrop
+composer require wiejakp/image-crop
 ```
 
 
@@ -45,7 +45,7 @@ more information.
 
 
 [conduct]: https://github.com/wiejakp/ImageCrop/blob/master/.github/CODE_OF_CONDUCT.md
-[composer]: http://getcomposer.org/
+[composer]: https://getcomposer.org/
 [documentation]: https://wiejakp.github.io/ImageCrop/
 [contributing]: https://github.com/wiejakp/ImageCrop/blob/master/.github/CONTRIBUTING.md
 

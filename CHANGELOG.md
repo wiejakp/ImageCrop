@@ -2,33 +2,40 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [1.0.3] - 2019-08-29
+
+### Notes
+
+* Update library template using [ramsey/php-library-skeleton](ramsey/php-library-skeleton).
+* Added reader classes tests.
+* Added writer classes tests.
 
 
-## [Unreleased]
+## [1.0.2] - 2019-08-26
 
-### Added
+### Notes
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+* Downgrade PHP version requirement from 7.3 to 7.2.
 
 
-## [1.0.0] - YYYY-MM-DD
+## [1.0.1] - 2019-08-21
 
-### Added
+### Notes
 
-* Feature A description
-* Feature B description
-* Feature C description
+* Add short readme with some basic info and documentation.
+* Store reader/writer inside of ImageCrop::class to preserve simplicity.
+* Add easy to implement readers which are using build-in PHP image functions.
 
 
-[Unreleased]: https://github.com/wiejakp/ImageCrop/compare/1.0.0...HEAD
-[1.0.0]: https://github.com/wiejakp/ImageCrop/commits/1.0.0
+## [1.0] - 2019-08-19
+
+### Notes
+
+* Initial release.
+
+
+[1.0.3]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.3
+[1.0.2]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.2
+[1.0.1]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.1
+[1.0]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0
