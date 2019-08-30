@@ -53,7 +53,7 @@ more information.
 [badge-release]: https://img.shields.io/packagist/v/wiejakp/image-crop.svg?style=flat-square&label=release
 [badge-license]: https://img.shields.io/packagist/l/wiejakp/image-crop.svg?style=flat-square
 [badge-php]: https://img.shields.io/packagist/php-v/wiejakp/image-crop.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/wiejakp/image-crop/v1.0.3.svg?style=flat-square
+[badge-build]: https://img.shields.io/travis/wiejakp/imagecrop/master.svg?style=flat-square
 [badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/image-crop/master.svg?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/wiejakp/image-crop.svg?style=flat-square&colorB=mediumvioletred
 
