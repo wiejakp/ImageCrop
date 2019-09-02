@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace wiejakp\ImageCrop\Manager;
 
+use DataURI\Data;
+use DataURI\Dumper;
 use wiejakp\ImageCrop\ImageCrop;
 
 /**
@@ -99,10 +101,10 @@ abstract class AbstractManager
      */
     public function getDataUri(string $path): ?string
     {
-        $data = $this->getData($path) ?? '';
-        $uri = \sprintf("data:%s;base64,%s", $this->getDataMimeType($path), \base64_encode($data));
+        $content = $this->getData($path) ?? '';
+        $uri = new Data($content, $this->getDataMimeType($path));
 
-        return $uri ? $uri : null;
+        return $uri ? Dumper::dump($uri) : null;
     }
 
     /**
