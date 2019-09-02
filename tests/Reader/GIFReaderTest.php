@@ -35,7 +35,7 @@ class GIFReaderTest extends TestCase
     /**
      * @var string
      */
-    private $uri;
+    private $data;
 
     /**
      * @return void
@@ -46,11 +46,11 @@ class GIFReaderTest extends TestCase
         $this->core->setReader(new GIFReader(new ReaderManager($this->core)));
         $this->core->setWriter(new GIFWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->uri = $this->core->getWriter()->getManager()->getDataUri(
+        $this->data = $this->core->getWriter()->getManager()->getData(
             \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.gif')
         );
 
-        \file_put_contents($this->path, \file_get_contents($this->uri));
+        \file_put_contents($this->path, $this->data);
     }
 
     /**
@@ -72,6 +72,6 @@ class GIFReaderTest extends TestCase
         $writer = $this->core->getWriter();
         $writer->write();
 
-        $this->assertSame($this->uri, $writer->getManager()->getDataUri($writer->getPath()));
+        $this->assertSame($this->data, $writer->getManager()->getData($writer->getPath()));
     }
 }

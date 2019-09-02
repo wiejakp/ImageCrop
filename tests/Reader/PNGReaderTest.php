@@ -35,7 +35,7 @@ class PNGReaderTest extends TestCase
     /**
      * @var string
      */
-    private $uri;
+    private $data;
 
     /**
      * @return void
@@ -46,11 +46,11 @@ class PNGReaderTest extends TestCase
         $this->core->setReader(new PNGReader(new ReaderManager($this->core)));
         $this->core->setWriter(new PNGWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->uri = $this->core->getWriter()->getManager()->getDataUri(
+        $this->data = $this->core->getWriter()->getManager()->getData(
             \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.png')
         );
 
-        \file_put_contents($this->path, \file_get_contents($this->uri));
+        \file_put_contents($this->path, $this->data);
     }
 
     /**
@@ -72,6 +72,6 @@ class PNGReaderTest extends TestCase
         $writer = $this->core->getWriter();
         $writer->write();
 
-        $this->assertSame($this->uri, $writer->getManager()->getDataUri($writer->getPath()));
+        $this->assertSame($this->data, $writer->getManager()->getData($writer->getPath()));
     }
 }
