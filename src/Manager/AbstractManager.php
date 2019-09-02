@@ -100,7 +100,7 @@ abstract class AbstractManager
     public function getDataUri(string $path): ?string
     {
         $data = $this->getData($path) ?? '';
-        $uri = \sprintf('data:%s;base64,%s', $this->getDataMimeType($path), \base64_encode($data));
+        $uri = \sprintf("data:%s;base64,%s", $this->getDataMimeType($path), \base64_encode($data));
 
         return $uri ? $uri : null;
     }
