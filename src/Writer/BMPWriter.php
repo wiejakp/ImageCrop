@@ -30,14 +30,16 @@ class BMPWriter extends AbstractWriter
     }
 
     /**
+     * @param bool $compressed
+     *
      * @return string
      */
-    public function write(): string
+    public function write($compressed = false): string
     {
         $resource = $this->getManager()->getCore()->getReader()->getResource();
 
         if (false !== $resource) {
-            \imagebmp($resource, $this->getPath());
+            \imagebmp($resource, $this->getPath(), $compressed);
         }
 
         return $this->getPath();

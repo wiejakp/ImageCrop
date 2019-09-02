@@ -93,9 +93,11 @@ abstract class AbstractWriter
     }
 
     /**
+     * @param mixed $parameter |null
+     *
      * @return string|null
      */
-    public function write(): ?string
+    public function write($parameter = null): ?string
     {
         \trigger_error('Do Not Call Directly');
 

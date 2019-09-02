@@ -14,13 +14,13 @@ use wiejakp\ImageCrop\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 use wiejakp\ImageCrop\Manager\WriterManager;
 use wiejakp\ImageCrop\Reader\BMPReader;
-use wiejakp\ImageCrop\Test\TestCase;
+use wiejakp\ImageCrop\Test\TestImageCase;
 use wiejakp\ImageCrop\Writer\BMPWriter;
 
 /**
  * @inheritDoc
  */
-class BMPReaderTest extends TestCase
+class BMPReaderTest extends TestImageCase
 {
     /**
      * @var ImageCrop
@@ -46,9 +46,7 @@ class BMPReaderTest extends TestCase
         $this->core->setReader(new BMPReader(new ReaderManager($this->core)));
         $this->core->setWriter(new BMPWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->data = $this->core->getWriter()->getManager()->getData(
-            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.bmp')
-        );
+        $this->data = \file_get_contents($this->createBMP());
 
         \file_put_contents($this->path, $this->data);
     }

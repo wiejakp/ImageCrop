@@ -14,13 +14,13 @@ use wiejakp\ImageCrop\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 use wiejakp\ImageCrop\Manager\WriterManager;
 use wiejakp\ImageCrop\Reader\GIFReader;
-use wiejakp\ImageCrop\Test\TestCase;
+use wiejakp\ImageCrop\Test\TestImageCase;
 use wiejakp\ImageCrop\Writer\GIFWriter;
 
 /**
  * @inheritDoc
  */
-class GIFReaderTest extends TestCase
+class GIFReaderTest extends TestImageCase
 {
     /**
      * @var ImageCrop
@@ -46,9 +46,7 @@ class GIFReaderTest extends TestCase
         $this->core->setReader(new GIFReader(new ReaderManager($this->core)));
         $this->core->setWriter(new GIFWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->data = $this->core->getWriter()->getManager()->getData(
-            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.gif')
-        );
+        $this->data = \file_get_contents($this->createGIF());
 
         \file_put_contents($this->path, $this->data);
     }

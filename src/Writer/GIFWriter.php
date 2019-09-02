@@ -30,9 +30,11 @@ class GIFWriter extends AbstractWriter
     }
 
     /**
+     * @param null $parameter
+     *
      * @return string
      */
-    public function write(): string
+    public function write($parameter = null): string
     {
         $resource = $this->getManager()->getCore()->getReader()->getResource();
 

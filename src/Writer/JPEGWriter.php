@@ -30,14 +30,16 @@ class JPEGWriter extends AbstractWriter
     }
 
     /**
+     * @param int $quality
+     *
      * @return string
      */
-    public function write(): string
+    public function write($quality = 100): string
     {
         $resource = $this->getManager()->getCore()->getReader()->getResource();
 
         if (false !== $resource) {
-            \imagejpeg($resource, $this->getPath());
+            \imagejpeg($resource, $this->getPath(), $quality);
         }
 
         return $this->getPath();

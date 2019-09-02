@@ -30,14 +30,16 @@ class PNGWriter extends AbstractWriter
     }
 
     /**
+     * @param int $quality
+     *
      * @return string
      */
-    public function write(): string
+    public function write($quality = 0): string
     {
         $resource = $this->getManager()->getCore()->getReader()->getResource();
 
         if (false !== $resource) {
-            \imagepng($resource, $this->getPath());
+            \imagepng($resource, $this->getPath(), $quality);
         }
 
         return $this->getPath();

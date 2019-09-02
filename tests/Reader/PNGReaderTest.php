@@ -14,13 +14,13 @@ use wiejakp\ImageCrop\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 use wiejakp\ImageCrop\Manager\WriterManager;
 use wiejakp\ImageCrop\Reader\PNGReader;
-use wiejakp\ImageCrop\Test\TestCase;
+use wiejakp\ImageCrop\Test\TestImageCase;
 use wiejakp\ImageCrop\Writer\PNGWriter;
 
 /**
  * @inheritDoc
  */
-class PNGReaderTest extends TestCase
+class PNGReaderTest extends TestImageCase
 {
     /**
      * @var ImageCrop
@@ -46,9 +46,7 @@ class PNGReaderTest extends TestCase
         $this->core->setReader(new PNGReader(new ReaderManager($this->core)));
         $this->core->setWriter(new PNGWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->data = $this->core->getWriter()->getManager()->getData(
-            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.png')
-        );
+        $this->data = \file_get_contents($this->createPNG());
 
         \file_put_contents($this->path, $this->data);
     }
