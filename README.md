@@ -54,7 +54,7 @@ more information.
 [badge-license]: https://img.shields.io/packagist/l/wiejakp/image-crop.svg?style=flat-square
 [badge-php]: https://img.shields.io/packagist/php-v/wiejakp/image-crop.svg?style=flat-square
 [badge-build]: https://img.shields.io/travis/wiejakp/imagecrop?style=flat-square
-[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/image-crop/master.svg?style=flat-square
+[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/ImageCrop/master.svg?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/wiejakp/image-crop.svg?style=flat-square&colorB=mediumvioletred
 
 [source]: https://github.com/wiejakp/ImageCrop
