@@ -46,7 +46,9 @@ class PNGReaderTest extends TestCase
         $this->core->setReader(new PNGReader(new ReaderManager($this->core)));
         $this->core->setWriter(new PNGWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->uri = $this->core->getWriter()->getManager()->getDataUri(\sprintf('%s/%s', $this->getPixelsPath(), 'pixel.png'));
+        $this->uri = $this->core->getWriter()->getManager()->getDataUri(
+            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.png')
+        );
 
         \file_put_contents($this->path, \file_get_contents($this->uri));
     }

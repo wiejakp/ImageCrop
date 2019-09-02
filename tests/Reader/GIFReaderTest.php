@@ -46,7 +46,9 @@ class GIFReaderTest extends TestCase
         $this->core->setReader(new GIFReader(new ReaderManager($this->core)));
         $this->core->setWriter(new GIFWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->uri = $this->core->getWriter()->getManager()->getDataUri(\sprintf('%s/%s', $this->getPixelsPath(), 'pixel.gif'));
+        $this->uri = $this->core->getWriter()->getManager()->getDataUri(
+            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.gif')
+        );
 
         \file_put_contents($this->path, \file_get_contents($this->uri));
     }

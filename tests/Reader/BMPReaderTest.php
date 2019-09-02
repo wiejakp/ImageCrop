@@ -46,7 +46,9 @@ class BMPReaderTest extends TestCase
         $this->core->setReader(new BMPReader(new ReaderManager($this->core)));
         $this->core->setWriter(new BMPWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->uri = $this->core->getWriter()->getManager()->getDataUri(\sprintf('%s/%s', $this->getPixelsPath(), 'pixel.bmp'));
+        $this->uri = $this->core->getWriter()->getManager()->getDataUri(
+            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.bmp')
+        );
 
         \file_put_contents($this->path, \file_get_contents($this->uri));
     }
