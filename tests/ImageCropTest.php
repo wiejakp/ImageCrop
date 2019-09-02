@@ -212,7 +212,7 @@ class ImageCropTest extends TestCase
         $this->assertSame(['red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 0], $core->getRGBA());
 
         // test changed
-        $core->setRGBA(0,0,0,0);
+        $core->setRGBA(0, 0, 0, 0);
         $this->assertSame(['red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0], $core->getRGBA());
     }
 
