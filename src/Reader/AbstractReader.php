@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace wiejakp\ImageCrop\Reader;
 
+use wiejakp\ImageCrop\Exception\NullResourceException;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 
 /**
@@ -80,7 +81,7 @@ abstract class AbstractReader
     public function getResource()
     {
         if (null === $this->resource || false === $this->resource) {
-            throw new \Exception('Resource was never set.');
+            throw new NullResourceException();
         }
 
         return $this->resource;

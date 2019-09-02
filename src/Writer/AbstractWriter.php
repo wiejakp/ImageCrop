@@ -105,16 +105,6 @@ abstract class AbstractWriter
     /**
      * @return string|null
      */
-    public function getData(): ?string
-    {
-        $data = \file_get_contents($this->getPath());
-
-        return $data ? $data : null;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         $manager = $this->getManager();

@@ -81,6 +81,42 @@ abstract class AbstractManager
     }
 
     /**
+     * @param string $path
+     *
+     * @return string|null
+     */
+    public function getData(string $path): ?string
+    {
+        $data = \file_get_contents($path);
+
+        return $data ? $data : null;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string|null
+     */
+    public function getDataUri(string $path): ?string
+    {
+        $uri = \sprintf('data:%s;base64,%s', $this->getDataMimeType($path), \base64_encode($this->getData($path)));
+
+        return $uri ? $uri : null;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string|null
+     */
+    public function getDataMimeType(string $path): ?string
+    {
+        $mimeType = \mime_content_type($path);
+
+        return $mimeType ? $mimeType : null;
+    }
+
+    /**
      * @param string $library
      * @param string $class
      *

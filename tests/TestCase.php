@@ -17,4 +17,38 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 class TestCase extends MockeryTestCase
 {
+    /**
+     * @var string
+     */
+    private $root;
+
+    /**
+     * TestCase constructor.
+     *
+     * @param null   $name
+     * @param array  $data
+     * @param string $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        $this->root = \explode('/', \dirname(__FILE__), 1)[0];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRootPath(): string
+    {
+        return $this->root;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPixelsPath(): string
+    {
+        return \sprintf('%s%s', $this->getRootPath() , '/pixels');
+    }
 }
