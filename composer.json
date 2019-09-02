@@ -1,5 +1,5 @@
 {
-    "name": "wiejakp\/ImageCrop",
+    "name": "wiejakp/image-crop",
     "description": "Image cropping helper for PHP.",
     "type": "library",
     "keywords": ["php"],
