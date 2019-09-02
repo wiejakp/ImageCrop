@@ -49,6 +49,24 @@ class ImageCropTest extends TestCase
      */
     public function testGetReader(): void
     {
+        $this->testReader();
+    }
+
+    /**
+     * @return void
+     */
+    public function testSetReader(): void
+    {
+        $this->testReader();
+    }
+
+    /**
+     * test get/set ImageCrop::$reader
+     *
+     * @return void
+     */
+    public function testReader(): void
+    {
         // initialize library core
         $core = new ImageCrop();
 
