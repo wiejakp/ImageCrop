@@ -20,7 +20,8 @@
         "wiki": "https://github.com/wiejakp/ImageCrop/wiki"
     },
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.2.0",
+        "data-uri/data-uri": "^0.2.5"
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.9",
