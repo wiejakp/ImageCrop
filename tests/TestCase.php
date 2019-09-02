@@ -49,6 +49,6 @@ class TestCase extends MockeryTestCase
      */
     protected function getPixelsPath(): string
     {
-        return \sprintf('%s%s', $this->getRootPath() , '/pixels');
+        return \sprintf('%s%s', $this->getRootPath(), '/pixels');
     }
 }
