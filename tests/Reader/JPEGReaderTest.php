@@ -47,7 +47,7 @@ class JPEGReaderTest extends TestCase
         $this->core->setWriter(new JPEGWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
         $this->uri = $this->core->getWriter()->getManager()->getDataUri(
-            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.jpeg')
+            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.jpg')
         );
 
         \file_put_contents($this->path, \file_get_contents($this->uri));
