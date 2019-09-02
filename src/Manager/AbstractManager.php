@@ -97,14 +97,14 @@ abstract class AbstractManager
     /**
      * @param string $path
      *
-     * @return string|null
+     * @return string
      */
-    public function getDataUri(string $path): ?string
+    public function getDataUri(string $path): string
     {
         $content = $this->getData($path) ?? '';
         $uri = new Data($content, $this->getDataMimeType($path));
 
-        return $uri ? Dumper::dump($uri) : null;
+        return Dumper::dump($uri);
     }
 
     /**
