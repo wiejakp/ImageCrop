@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace wiejakp\ImageCrop\Manager;
 
+use wiejakp\ImageCrop\Exception\WriterNotFoundException;
 use wiejakp\ImageCrop\Writer\AbstractWriter;
 
 /**
@@ -27,7 +28,7 @@ class WriterManager extends AbstractManager
     public function getWriter(string $class): AbstractWriter
     {
         if (false === $this->isWriterClass($class)) {
-            throw new \Exception(\sprintf('Provided writer was not found: %s', $class));
+            throw new WriterNotFoundException(\sprintf('Provided writer was not found: %s', $class));
         }
 
         /**

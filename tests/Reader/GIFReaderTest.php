@@ -46,7 +46,7 @@ class GIFReaderTest extends TestImageCase
         $this->core->setReader(new GIFReader(new ReaderManager($this->core)));
         $this->core->setWriter(new GIFWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->data = \file_get_contents($this->createGIF());
+        $this->data = \file_get_contents($this->createEmptyGIF());
 
         \file_put_contents($this->path, $this->data);
     }

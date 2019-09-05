@@ -20,7 +20,7 @@ use wiejakp\ImageCrop\Writer\BMPWriter;
 /**
  * @inheritDoc
  */
-class BMPReaderTest extends TestImageCase
+class BMPWriterTest extends TestImageCase
 {
     /**
      * @var ImageCrop
@@ -49,27 +49,5 @@ class BMPReaderTest extends TestImageCase
         $this->data = \file_get_contents($this->createEmptyBMP());
 
         \file_put_contents($this->path, $this->data);
-    }
-
-    /**
-     * @return void
-     */
-    public function testConstruct(): void
-    {
-        $this->assertInstanceOf(BMPReader::class, $this->core->getReader());
-    }
-
-    /**
-     * @return void
-     */
-    public function testLoadFromPath(): void
-    {
-        $reader = $this->core->getReader();
-        $reader->loadFromPath($this->path);
-
-        $writer = $this->core->getWriter();
-        $writer->write();
-
-        $this->assertSame($this->data, $writer->getManager()->getData($writer->getPath()));
     }
 }

@@ -26,7 +26,7 @@ use wiejakp\ImageCrop\Writer\PNGWriter;
 /**
  * @inheritDoc
  */
-class ImageCropTest extends TestCase
+class ImageCropTest extends TestImageCase
 {
     /**
      * @return void

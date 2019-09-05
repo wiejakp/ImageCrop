@@ -18,7 +18,7 @@ class TestImageCase extends TestCase
     /**
      * @return string
      */
-    public function createBMP(): string
+    public function createEmptyBMP(): string
     {
         $path = $this->getTempFile();
 
@@ -30,7 +30,7 @@ class TestImageCase extends TestCase
     /**
      * @return string
      */
-    public function createGIF(): string
+    public function createEmptyGIF(): string
     {
         $path = $this->getTempFile();
 
@@ -42,7 +42,7 @@ class TestImageCase extends TestCase
     /**
      * @return string
      */
-    public function createJPEG(): string
+    public function createEmptyJPEG(): string
     {
         $path = $this->getTempFile();
 
@@ -54,11 +54,23 @@ class TestImageCase extends TestCase
     /**
      * @return string
      */
-    public function createPNG(): string
+    public function createEmptyPNG(): string
     {
         $path = $this->getTempFile();
 
         \imagepng(\imagecreatetruecolor(1, 1), $path, 0);
+
+        return $path;
+    }
+
+    /**
+     * @return string
+     */
+    public function createCroppaleBMP(): string
+    {
+        $path = $this->getTempFile();
+
+        \imagebmp(\imagecreatetruecolor(1, 1), $path, false);
 
         return $path;
     }
