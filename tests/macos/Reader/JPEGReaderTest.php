@@ -8,19 +8,19 @@
 
 declare(strict_types=1);
 
-namespace wiejakp\ImageCrop\Test\Reader;
+namespace wiejakp\ImageCrop\Test\MacOS\Reader;
 
 use wiejakp\ImageCrop\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
 use wiejakp\ImageCrop\Manager\WriterManager;
-use wiejakp\ImageCrop\Reader\PNGReader;
+use wiejakp\ImageCrop\Reader\JPEGReader;
 use wiejakp\ImageCrop\Test\TestCase;
-use wiejakp\ImageCrop\Writer\PNGWriter;
+use wiejakp\ImageCrop\Writer\JPEGWriter;
 
 /**
  * @inheritDoc
  */
-class PNGReaderTest extends TestCase
+class JPEGReaderTest extends TestCase
 {
     /**
      * @var ImageCrop
@@ -43,11 +43,11 @@ class PNGReaderTest extends TestCase
     public function setUp(): void
     {
         $this->core = new ImageCrop();
-        $this->core->setReader(new PNGReader(new ReaderManager($this->core)));
-        $this->core->setWriter(new PNGWriter(new WriterManager($this->core)));
+        $this->core->setReader(new JPEGReader(new ReaderManager($this->core)));
+        $this->core->setWriter(new JPEGWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
         $this->data = $this->core->getWriter()->getManager()->getData(
-            \sprintf('%s/%s', $this->getPixelsPath(), 'pixel.png')
+            \sprintf('%s/%s', $this->getPixelsPath(), 'macos/pixel.jpeg')
         );
 
         \file_put_contents($this->path, $this->data);
@@ -58,7 +58,7 @@ class PNGReaderTest extends TestCase
      */
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(PNGReader::class, $this->core->getReader());
+        $this->assertInstanceOf(JPEGReader::class, $this->core->getReader());
     }
 
     /**
@@ -72,6 +72,7 @@ class PNGReaderTest extends TestCase
         $writer = $this->core->getWriter();
         $writer->write();
 
-        $this->assertSame($this->data, $writer->getManager()->getData($writer->getPath()));
+        $this->assertSame($writer->getManager()->getDataUri($this->path), $writer->getManager()->getDataUri($writer->getPath()));
+        //$this->assertSame($this->data, $writer->getManager()->getData($writer->getPath()));
     }
 }
