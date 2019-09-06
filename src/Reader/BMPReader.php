@@ -39,7 +39,9 @@ class BMPReader extends AbstractReader
     public function loadFromPath(string $path): self
     {
         try {
-            $this->resource = \imagecreatefrombmp($path);
+            if ($resource = \imagecreatefrombmp($path)) {
+                $this->resource = $resource;
+            }
         } catch (\Exception $exception) {
             throw new \Exception(
                 \sprintf('Provided file is not compatible with %s reader.', $this->getName())

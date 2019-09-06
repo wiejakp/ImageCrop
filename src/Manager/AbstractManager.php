@@ -139,7 +139,7 @@ abstract class AbstractManager
      *
      * @return bool
      */
-    protected function isReaderClass(string $class): bool
+    public function isReaderClass(string $class): bool
     {
         return $this->isLibraryClass('Reader', $class);
     }
@@ -152,7 +152,7 @@ abstract class AbstractManager
      *
      * @throws \Exception
      */
-    protected function findWriter(string $class): AbstractWriter
+    public function findWriter(string $class): AbstractWriter
     {
         if (false === $this->isWriterClass($class)) {
             throw new WriterNotFoundException(\sprintf('Provided writer was not found: %s', $class));
@@ -213,7 +213,7 @@ abstract class AbstractManager
      *
      * @return bool
      */
-    private function isWriterClass(string $class): bool
+    public function isWriterClass(string $class): bool
     {
         return $this->isLibraryClass('Writer', $class);
     }

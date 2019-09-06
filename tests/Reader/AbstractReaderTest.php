@@ -41,6 +41,9 @@ class AbstractReaderTest extends TestImageCase
 
     /**
      * @dataProvider data
+     *
+     * @param string $class
+     * @param string $path
      */
     public function testNullReaderException(string $class, string $path): void
     {
@@ -51,6 +54,9 @@ class AbstractReaderTest extends TestImageCase
 
     /**
      * @dataProvider data
+     *
+     * @param string $class
+     * @param string $path
      */
     public function testNullResourceException(string $class, string $path): void
     {
@@ -64,6 +70,9 @@ class AbstractReaderTest extends TestImageCase
 
     /**
      * @dataProvider data
+     *
+     * @param string $class
+     * @param string $path
      */
     public function testReader(string $class, string $path)
     {
@@ -83,6 +92,9 @@ class AbstractReaderTest extends TestImageCase
         $this->assertIsResource($this->core->getReader()->getResource());
     }
 
+    /**
+     * @return iterable
+     */
     public function data(): iterable
     {
         yield [BMPReader::class, $this->createEmptyBMP()];

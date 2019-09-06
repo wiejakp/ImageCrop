@@ -39,7 +39,9 @@ class GIFReader extends AbstractReader
     public function loadFromPath(string $path): self
     {
         try {
-            $this->resource = \imagecreatefromgif($path);
+            if ($resource = \imagecreatefromgif($path)) {
+                $this->resource = $resource;
+            }
         } catch (\Exception $exception) {
             throw new \Exception(
                 \sprintf('Provided file is not compatible with %s reader.', $this->getName())

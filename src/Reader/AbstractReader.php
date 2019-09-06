@@ -39,7 +39,7 @@ abstract class AbstractReader
     protected $destination;
 
     /**
-     * @var resource|false
+     * @var resource
      */
     protected $resource;
 
