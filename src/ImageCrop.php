@@ -25,8 +25,6 @@ use wiejakp\ImageCrop\Writer\PNGWriter;
 
 /**
  * Class ImageCrop
- *
- * @package wiejakp\ImageCrop
  */
 class ImageCrop
 {
@@ -39,16 +37,6 @@ class ImageCrop
      * @var WriterManager
      */
     private $writerManager;
-
-    /**
-     * @var AbstractReader|JPEGReader|null
-     */
-    private $reader;
-
-    /**
-     * @var AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
-     */
-    private $writer;
 
     /**
      * @var array
@@ -70,63 +58,53 @@ class ImageCrop
     }
 
     /**
-     * @return AbstractReader|JPEGReader|null
+     * @return ReaderManager
      */
-    public function getReader(): ?AbstractReader
+    public function getReaderManager(): ReaderManager
     {
-        return $this->reader;
+        return $this->readerManager;
     }
 
     /**
-     * @param string|BMPReader|GIFReader|JPEGReader|PNGReader $reader
-     * @return self
-     * @throws \Exception
+     * @return WriterManager
+     */
+    public function getWriterManager(): WriterManager
+    {
+        return $this->writerManager;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getReader(): AbstractReader
+    {
+        return $this->getReaderManager()->getReader();
+    }
+
+    /**
+     * @inheritDoc
      */
     public function setReader($reader): self
     {
-        switch (true) {
-            case \is_string($reader):
-                $this->reader = $this->readerManager->getReader($reader);
-                break;
-
-            case \is_subclass_of($reader, AbstractReader::class):
-                $this->reader = $reader;
-                break;
-
-            default:
-                throw new \Exception('Suggested Reader is not supported.');
-        }
+        $this->getReaderManager()->setReader($reader);
 
         return $this;
     }
 
     /**
-     * @return AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter|null
+     * @inheritDoc
      */
-    public function getWriter(): ?AbstractWriter
+    public function getWriter()
     {
-        return $this->writer;
+        return $this->getWriterManager()->getWriter();
     }
 
     /**
-     * @param string|BMPWriter|GIFWriter|JPEGWriter|PNGWriter $writer
-     * @return self
-     * @throws \Exception
+     * @inheritDoc
      */
     public function setWriter($writer): self
     {
-        switch (true) {
-            case \is_string($writer):
-                $this->writer = $this->writerManager->getWriter($writer);
-                break;
-
-            case \is_subclass_of($writer, AbstractWriter::class):
-                $this->writer = $writer;
-                break;
-
-            default:
-                throw new \Exception('Suggested Writer is not supported.');
-        }
+        $this->getWriterManager()->setWriter($writer);
 
         return $this;
     }
@@ -144,11 +122,13 @@ class ImageCrop
      * @param int $green
      * @param int $blue
      * @param int $alpha
+     *
      * @return self
      */
     public function setRGBA(int $red, int $green, int $blue, int $alpha): self
     {
         $this->rgba = ['red' => $red, 'green' => $green, 'blue' => $blue, 'alpha' => $alpha];
+
         return $this;
     }
 
@@ -165,7 +145,7 @@ class ImageCrop
      */
     public function cropTop(): self
     {
-        $reader = $this->reader;
+        $reader = $this->getReaderManager()->getReader();
         $original = $reader->getResource();
         $top = 0;
 
@@ -189,7 +169,7 @@ class ImageCrop
             ['x' => 0, 'y' => $top, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 
@@ -201,7 +181,7 @@ class ImageCrop
      */
     public function cropRight(): self
     {
-        $reader = $this->reader;
+        $reader = $this->getReaderManager()->getReader();
         $original = $reader->getResource();
         $right = 0;
 
@@ -225,7 +205,7 @@ class ImageCrop
             ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 
@@ -237,7 +217,7 @@ class ImageCrop
      */
     public function cropBottom(): self
     {
-        $reader = $this->reader;
+        $reader = $this->getReaderManager()->getReader();
         $original = $reader->getResource();
         $bottom = 0;
 
@@ -261,7 +241,7 @@ class ImageCrop
             ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 
@@ -273,7 +253,7 @@ class ImageCrop
      */
     public function cropLeft(): self
     {
-        $reader = $this->reader;
+        $reader = $this->getReaderManager()->getReader();
         $original = $reader->getResource();
         $left = 0;
 
@@ -297,7 +277,7 @@ class ImageCrop
             ['x' => $left, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
-        if ($modified) {
+        if (false !== $modified) {
             $reader->setResource($modified);
         }
 
@@ -308,6 +288,7 @@ class ImageCrop
      * @param resource $resource
      * @param int      $x
      * @param int      $y
+     *
      * @return bool
      */
     private function isColorMatch($resource, int $x, int $y): bool

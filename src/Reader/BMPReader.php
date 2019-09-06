@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\ReaderManager;
 
 /**
  * Class BMPReader
- *
- * @package wiejakp\ImageCrop\Reader
  */
 class BMPReader extends AbstractReader
 {
@@ -33,13 +31,17 @@ class BMPReader extends AbstractReader
 
     /**
      * @param string $path
-     * @return $this|void|AbstractReader
+     *
+     * @return self
+     *
      * @throws \Exception
      */
-    public function loadFromPath(string $path)
+    public function loadFromPath(string $path): self
     {
         try {
-            $this->resource = \imagecreatefrombmp($path);
+            if ($resource = \imagecreatefrombmp($path)) {
+                $this->resource = $resource;
+            }
         } catch (\Exception $exception) {
             throw new \Exception(
                 \sprintf('Provided file is not compatible with %s reader.', $this->getName())

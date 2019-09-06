@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\ReaderManager;
 
 /**
  * Class GIFReader
- *
- * @package wiejakp\ImageCrop\Reader
  */
 class GIFReader extends AbstractReader
 {
@@ -33,13 +31,17 @@ class GIFReader extends AbstractReader
 
     /**
      * @param string $path
-     * @return $this|void|AbstractReader
+     *
+     * @return self
+     *
      * @throws \Exception
      */
-    public function loadFromPath(string $path)
+    public function loadFromPath(string $path): self
     {
         try {
-            $this->resource = \imagecreatefromgif($path);
+            if ($resource = \imagecreatefromgif($path)) {
+                $this->resource = $resource;
+            }
         } catch (\Exception $exception) {
             throw new \Exception(
                 \sprintf('Provided file is not compatible with %s reader.', $this->getName())

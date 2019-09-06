@@ -8,11 +8,15 @@
 
 declare(strict_types=1);
 
-namespace wiejakp\ImageCrop\Manager;
+namespace wiejakp\ImageCrop\Exception;
 
 /**
- * Class WriterManager
+ * Class NullResourceException
  */
-class WriterManager extends AbstractManager
+class NullResourceException extends \Exception
 {
+    /**
+     * @var string
+     */
+    protected $message = 'Reader resource is null.';
 }

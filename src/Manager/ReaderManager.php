@@ -10,42 +10,9 @@ declare(strict_types=1);
 
 namespace wiejakp\ImageCrop\Manager;
 
-use wiejakp\ImageCrop\Reader\AbstractReader;
-
 /**
  * Class ReaderManager
- *
- * @package wiejakp\ImageCrop\Manager
  */
 class ReaderManager extends AbstractManager
 {
-    /**
-     * @param string $class
-     * @return AbstractReader
-     * @throws \Exception
-     */
-    public function getReader(string $class): AbstractReader
-    {
-        if (false === $this->isReaderClass($class)) {
-            throw new \Exception(\sprintf('Provided reader was not found: %s', $class));
-        }
-
-        /**
-         * create new reader object
-         *
-         * @var AbstractReader $reader
-         */
-        $reader = new $class($this);
-
-        return $reader;
-    }
-
-    /**
-     * @param string $class
-     * @return bool
-     */
-    private function isReaderClass(string $class): bool
-    {
-        return $this->isLibraryClass('Reader', $class);
-    }
 }

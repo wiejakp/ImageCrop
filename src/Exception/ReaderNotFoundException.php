@@ -8,11 +8,15 @@
 
 declare(strict_types=1);
 
-namespace wiejakp\ImageCrop\Manager;
+namespace wiejakp\ImageCrop\Exception;
 
 /**
- * Class WriterManager
+ * Class ReaderNotFoundException
  */
-class WriterManager extends AbstractManager
+class ReaderNotFoundException extends \Exception
 {
+    /**
+     * @var string
+     */
+    protected $message = 'Reader not found.';
 }

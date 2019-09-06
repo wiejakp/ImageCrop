@@ -8,11 +8,15 @@
 
 declare(strict_types=1);
 
-namespace wiejakp\ImageCrop\Manager;
+namespace wiejakp\ImageCrop\Exception;
 
 /**
- * Class WriterManager
+ * Class DoNotCallDirectlyException
  */
-class WriterManager extends AbstractManager
+class DoNotCallDirectlyException extends \Exception
 {
+    /**
+     * @var string
+     */
+    protected $message = 'Do not call directly.';
 }

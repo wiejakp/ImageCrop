@@ -14,8 +14,6 @@ use wiejakp\ImageCrop\Manager\WriterManager;
 
 /**
  * Class BMPWriter
- *
- * @package wiejakp\ImageCrop\Writer
  */
 class BMPWriter extends AbstractWriter
 {
@@ -32,11 +30,17 @@ class BMPWriter extends AbstractWriter
     }
 
     /**
+     * @param bool $compressed
+     *
      * @return string
      */
-    public function write(): string
+    public function write($compressed = false): string
     {
-        \imagebmp($this->getManager()->getCore()->getReader()->getResource(), $this->getPath());
+        $resource = $this->getManager()->getCore()->getReader()->getResource();
+
+        if (false !== $resource) {
+            \imagebmp($resource, $this->getPath(), $compressed);
+        }
 
         return $this->getPath();
     }

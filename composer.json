@@ -1,22 +1,74 @@
 {
     "name": "wiejakp/image-crop",
-    "description": "Image Crop Library",
+    "description": "Image cropping helper for PHP.",
     "type": "library",
+    "keywords": ["php"],
+    "homepage": "https://github.com/wiejakp/ImageCrop",
     "license": "MIT",
     "authors": [
         {
             "name": "Przemek Wiejak",
-            "email": "przemek@wiejak.app"
+            "email": "przemek@wiejak.app",
+            "homepage": "https://www.wiejak.app"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "wiejakp\\ImageCrop\\": "src"
-        }
+    "support": {
+        "docs": "https://wiejakp.github.io/ImageCrop/",
+        "issues": "https://github.com/wiejakp/ImageCrop/issues",
+        "rss": "https://github.com/wiejakp/ImageCrop/releases.atom",
+        "source": "https://github.com/wiejakp/ImageCrop.git",
+        "wiki": "https://github.com/wiejakp/ImageCrop/wiki"
     },
     "require": {
         "php": ">=7.2.0"
     },
     "require-dev": {
+        "escapestudios/symfony2-coding-standard": "^3.9",
+        "jakub-onderka/php-parallel-lint": "^1",
+        "mockery/mockery": "^1",
+        "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan-mockery": "^0.11",
+        "phpunit/phpunit": "^8.3",
+        "squizlabs/php_codesniffer": "^3"
+    },
+    "autoload": {
+        "psr-4": {
+            "wiejakp\\ImageCrop\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "wiejakp\\ImageCrop\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": "parallel-lint src tests",
+        "phpcs": [
+            "phpcs --config-set installed_paths vendor/escapestudios/symfony2-coding-standard",
+            "phpcs src tests --standard=symfony -sp --colors"
+
+        ],
+        "phpstan": [
+            "phpstan analyse src -c phpstan.neon --level max --no-progress",
+            "phpstan analyse tests -c phpstan.neon --level 4 --no-progress"
+        ],
+        "phpunit": "phpunit --verbose --colors=always",
+        "phpunit-ci": "phpunit --verbose --coverage-clover build/logs/clover.xml",
+        "phpunit-coverage": "phpunit --verbose --colors=always --coverage-html build/coverage",
+        "test": [
+            "@lint",
+            "@phpcs",
+            "@phpstan",
+            "@phpunit"
+        ],
+        "test-ci": [
+            "@lint",
+            "@phpcs",
+            "@phpstan",
+            "@phpunit-ci"
+        ]
+    },
+    "config": {
+        "sort-packages": true
     }
 }
