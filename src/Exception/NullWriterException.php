@@ -8,11 +8,15 @@
 
 declare(strict_types=1);
 
-namespace wiejakp\ImageCrop\Manager;
+namespace wiejakp\ImageCrop\Exception;
 
 /**
- * Class WriterManager
+ * Class NullWriterException
  */
-class WriterManager extends AbstractManager
+class NullWriterException extends \Exception
 {
+    /**
+     * @var string
+     */
+    protected $message = 'Writer was never set.';
 }

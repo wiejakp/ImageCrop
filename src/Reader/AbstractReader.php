@@ -80,7 +80,7 @@ abstract class AbstractReader
      */
     public function getResource()
     {
-        if (null === $this->resource || false === $this->resource) {
+        if (null === $this->resource) {
             throw new NullResourceException();
         }
 

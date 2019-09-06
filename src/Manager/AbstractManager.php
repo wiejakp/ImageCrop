@@ -12,7 +12,21 @@ namespace wiejakp\ImageCrop\Manager;
 
 use DataURI\Data;
 use DataURI\Dumper;
+use wiejakp\ImageCrop\Exception\NullReaderException;
+use wiejakp\ImageCrop\Exception\NullWriterException;
+use wiejakp\ImageCrop\Exception\ReaderNotFoundException;
+use wiejakp\ImageCrop\Exception\WriterNotFoundException;
 use wiejakp\ImageCrop\ImageCrop;
+use wiejakp\ImageCrop\Reader\AbstractReader;
+use wiejakp\ImageCrop\Reader\BMPReader;
+use wiejakp\ImageCrop\Reader\GIFReader;
+use wiejakp\ImageCrop\Reader\JPEGReader;
+use wiejakp\ImageCrop\Reader\PNGReader;
+use wiejakp\ImageCrop\Writer\AbstractWriter;
+use wiejakp\ImageCrop\Writer\BMPWriter;
+use wiejakp\ImageCrop\Writer\GIFWriter;
+use wiejakp\ImageCrop\Writer\JPEGWriter;
+use wiejakp\ImageCrop\Writer\PNGWriter;
 
 /**
  * Class AbstractManager
@@ -28,6 +42,16 @@ abstract class AbstractManager
      * @var string
      */
     protected $namespace;
+
+    /**
+     * @var AbstractReader|BMPReader|GIFReader|JPEGReader|PNGReader
+     */
+    protected $reader;
+
+    /**
+     * @var AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter
+     */
+    private $writer;
 
     /**
      * AbstractManager constructor.
@@ -46,6 +70,152 @@ abstract class AbstractManager
     public function getCore(): ImageCrop
     {
         return $this->core;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return AbstractReader
+     *
+     * @throws \Exception
+     */
+    public function findReader(string $class): AbstractReader
+    {
+        if (false === $this->isReaderClass($class)) {
+            throw new ReaderNotFoundException(\sprintf('Provided reader was not found: %s', $class));
+        }
+
+        /**
+         * create new reader object
+         *
+         * @var AbstractReader $reader
+         */
+        $reader = new $class($this);
+
+        return $reader;
+    }
+
+    /**
+     * @return AbstractReader|BMPReader|GIFReader|JPEGReader|PNGReader
+     *
+     * @throws NullReaderException
+     */
+    public function getReader(): AbstractReader
+    {
+        if (null === $this->reader) {
+            throw new NullReaderException();
+        }
+
+        return $this->reader;
+    }
+
+    /**
+     * @param string|BMPReader|GIFReader|JPEGReader|PNGReader $reader
+     *
+     * @return self
+     *
+     * @throws \Exception
+     */
+    public function setReader($reader): self
+    {
+        switch (true) {
+            case \is_string($reader):
+                $this->reader = $this->findReader($reader);
+                break;
+
+            case \is_subclass_of($reader, AbstractReader::class):
+                $this->reader = $reader;
+                break;
+
+            default:
+                throw new \Exception('Suggested Reader is not supported.');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return bool
+     */
+    protected function isReaderClass(string $class): bool
+    {
+        return $this->isLibraryClass('Reader', $class);
+    }
+
+
+    /**
+     * @param string $class
+     *
+     * @return AbstractWriter
+     *
+     * @throws \Exception
+     */
+    protected function findWriter(string $class): AbstractWriter
+    {
+        if (false === $this->isWriterClass($class)) {
+            throw new WriterNotFoundException(\sprintf('Provided writer was not found: %s', $class));
+        }
+
+        /**
+         * create new writer object
+         *
+         * @var AbstractWriter $writer
+         */
+        $writer = new $class($this);
+
+        return $writer;
+    }
+
+
+    /**
+     * @param string|BMPWriter|GIFWriter|JPEGWriter|PNGWriter $writer
+     *
+     * @return self
+     *
+     * @throws \Exception
+     */
+    public function setWriter($writer): self
+    {
+        switch (true) {
+            case \is_string($writer):
+                $this->writer = $this->findWriter($writer);
+                break;
+
+            case \is_subclass_of($writer, AbstractWriter::class):
+                $this->writer = $writer;
+                break;
+
+            default:
+                throw new \Exception('Suggested Writer is not supported.');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter
+     *
+     * @throws NullWriterException
+     */
+    public function getWriter(): AbstractWriter
+    {
+        if (null === $this->writer) {
+            throw new NullWriterException();
+        }
+
+        return $this->writer;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return bool
+     */
+    private function isWriterClass(string $class): bool
+    {
+        return $this->isLibraryClass('Writer', $class);
     }
 
     /**

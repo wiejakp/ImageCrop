@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace wiejakp\ImageCrop\Test\Reader;
+namespace wiejakp\ImageCrop\Test\Writer;
 
 use wiejakp\ImageCrop\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
