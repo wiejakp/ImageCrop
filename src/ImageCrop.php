@@ -285,6 +285,22 @@ class ImageCrop
     }
 
     /**
+     * @return string|null
+     */
+    public function getData(): ?string
+    {
+        return $this->getWriterManager()->getData($this->getWriter()->getPath());
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDataUri(): ?string
+    {
+        return $this->getWriterManager()->getDataUri($this->getWriter()->getPath());
+    }
+
+    /**
      * @param resource $resource
      * @param int      $x
      * @param int      $y
