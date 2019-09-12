@@ -285,17 +285,17 @@ class ImageCrop
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getData(): string
+    public function getData(): ?string
     {
         return $this->getWriterManager()->getData($this->getWriter()->getPath());
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDataUri(): string
+    public function getDataUri(): ?string
     {
         return $this->getWriterManager()->getDataUri($this->getWriter()->getPath());
     }
