@@ -91,5 +91,5 @@ more information.
 [license]: https://github.com/wiejakp/ImageCrop/blob/master/LICENSE
 [php]: https://php.net
 [build]: https://travis-ci.org/wiejakp/ImageCrop
-[coverage]: https://coveralls.io/r/wiejakp/ImageCrop?branch=master
+[coverage]: https://coveralls.io/repos/github/wiejakp/ImageCrop/badge.svg?branch=master
 [downloads]: https://packagist.org/packages/wiejakp/ImageCrop
