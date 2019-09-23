@@ -5,9 +5,9 @@
 [![Software License][badge-license]][license]
 [![PHP Version][badge-php]][php]
 [![Build Status][badge-build]][build]
-[![Coverage Status][badge-coverage]][coverage]
+[![Coverage Status](https://coveralls.io/repos/github/wiejakp/ImageCrop/badge.svg)](https://coveralls.io/github/wiejakp/ImageCrop)
 [![Total Downloads][badge-downloads]][downloads]
-
+<!--[![Coverage Status][badge-coverage]][coverage]-->
 
 
 This project adheres to a [Contributor Code of Conduct][conduct]. By
@@ -83,7 +83,7 @@ more information.
 [badge-license]: https://img.shields.io/packagist/l/wiejakp/image-crop.svg?style=flat-square
 [badge-php]: https://img.shields.io/packagist/php-v/wiejakp/image-crop.svg?style=flat-square
 [badge-build]: https://img.shields.io/travis/wiejakp/imagecrop?style=flat-square
-[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/ImageCrop/master.svg?style=flat-square
+<!--[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/ImageCrop/master.svg?style=flat-square-->
 [badge-downloads]: https://img.shields.io/packagist/dt/wiejakp/image-crop.svg?style=flat-square&colorB=mediumvioletred
 
 [source]: https://github.com/wiejakp/ImageCrop
@@ -91,5 +91,5 @@ more information.
 [license]: https://github.com/wiejakp/ImageCrop/blob/master/LICENSE
 [php]: https://php.net
 [build]: https://travis-ci.org/wiejakp/ImageCrop
-[coverage]: https://coveralls.io/repos/github/wiejakp/ImageCrop/badge.svg?branch=master
+<!--[coverage]: https://coveralls.io/repos/github/wiejakp/ImageCrop/badge.svg?branch=master-->
 [downloads]: https://packagist.org/packages/wiejakp/ImageCrop
