@@ -80,11 +80,17 @@ class ImageCropTest extends TestImageCase
         $this->testWriter();
     }
 
+    /**
+     * @return void
+     */
     public function testGetRGBA(): void
     {
         $this->testRGBA();
     }
 
+    /**
+     * @return void
+     */
     public function testSetRGBA(): void
     {
         $this->testRGBA();

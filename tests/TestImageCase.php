@@ -117,10 +117,10 @@ class TestImageCase extends TestCase
     }
 
     /**
-     * @param     $original
-     * @param int $border
+     * @param mixed $original
+     * @param int   $border
      */
-    function addImageBorder(&$original, int $border): void
+    public function addImageBorder(&$original, int $border): void
     {
         if ($border <= 0) {
             return;
