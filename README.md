@@ -26,6 +26,35 @@ composer require wiejakp/image-crop
 ```
 
 
+## Usage
+
+```              
+$imagePath = 'image.jpeg';
+  
+$imageCrop = (new ImageCrop())
+   ->setReader(JPEGReader::class)
+   ->setWriter(JPEGWriter::class);
+
+// load resource into a reader
+$imageCrop->getReader()->loadFromPath($imagePath);
+
+// perform cropping actions
+$imageCrop->cropTop();
+$imageCrop->cropRight();
+$imageCrop->cropBottom();
+$imageCrop->cropLeft();
+
+// skip images that appear to be empty
+if (false === $imageCrop->isEmpty()) {
+
+   // save cropped image to the drive
+   $imageCrop->getWriter()->write();
+
+   // do stuff with $imageCrop->getData() or $imageCrop->getDataUri()
+}
+```
+
+
 ## Documentation
 
 Check out the [documentation website][documentation] for detailed information

@@ -1,4 +1,4 @@
 .phpunit.result.cache
-/build/
 /phpunit.xml
 /vendor/
+.DS_Store
