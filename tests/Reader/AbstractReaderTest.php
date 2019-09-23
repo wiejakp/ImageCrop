@@ -97,9 +97,9 @@ class AbstractReaderTest extends TestImageCase
      */
     public function data(): iterable
     {
-        yield [BMPReader::class, $this->createEmptyBMP()];
-        yield [GIFReader::class, $this->createEmptyGIF()];
-        yield [JPEGReader::class, $this->createEmptyJPEG()];
-        yield [PNGReader::class, $this->createEmptyPNG()];
+        yield [BMPReader::class, $this->createBMP()];
+        yield [GIFReader::class, $this->createGIF()];
+        yield [JPEGReader::class, $this->createJPEG()];
+        yield [PNGReader::class, $this->createPNG()];
     }
 }

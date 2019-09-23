@@ -16,63 +16,154 @@ namespace wiejakp\ImageCrop\Test;
 class TestImageCase extends TestCase
 {
     /**
+     * @var int
+     */
+    private $offset = 5;
+
+    /**
+     * @param int $border
+     *
      * @return string
      */
-    public function createEmptyBMP(): string
+    public function createBMP(int $border = 0): string
     {
         $path = $this->getTempFile();
 
-        \imagebmp(\imagecreatetruecolor(1, 1), $path, false);
+        $resource = \imagecreatetruecolor($this->offset, $this->offset);
+        $color = \imagecolorallocate($resource, 0, 0, 0);
+
+        // fill image with color
+        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
+
+        // add image border when needed
+        $this->addImageBorder($resource, $border);
+
+        // save image resource to a file
+        \imagebmp($resource, $path, false);
 
         return $path;
     }
 
     /**
+     * @param int $border
+     *
      * @return string
      */
-    public function createEmptyGIF(): string
+    public function createGIF(int $border = 0): string
     {
         $path = $this->getTempFile();
 
-        \imagegif(\imagecreatetruecolor(1, 1), $path);
+        $resource = \imagecreatetruecolor($this->offset, $this->offset);
+        $color = \imagecolorallocate($resource, 0, 0, 0);
+
+        // fill image with color
+        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
+
+        // add image border when needed
+        $this->addImageBorder($resource, $border);
+
+        // save image resource to a file
+        \imagegif($resource, $path);
 
         return $path;
     }
 
     /**
+     * @param int $border
+     *
      * @return string
      */
-    public function createEmptyJPEG(): string
+    public function createJPEG(int $border = 0): string
     {
         $path = $this->getTempFile();
 
-        \imagejpeg(\imagecreatetruecolor(1, 1), $path, 100);
+        $resource = \imagecreatetruecolor($this->offset, $this->offset);
+        $color = \imagecolorallocate($resource, 0, 0, 0);
+
+        // fill image with color
+        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
+
+        // add image border when needed
+        $this->addImageBorder($resource, $border);
+
+        // save image resource to a file
+        \imagejpeg($resource, $path, 100);
 
         return $path;
     }
 
     /**
+     * @param int $border
+     *
      * @return string
      */
-    public function createEmptyPNG(): string
+    public function createPNG(int $border = 0): string
     {
         $path = $this->getTempFile();
 
-        \imagepng(\imagecreatetruecolor(1, 1), $path, 0);
+        $resource = \imagecreatetruecolor($this->offset, $this->offset);
+        $color = \imagecolorallocate($resource, 0, 0, 0);
+
+        // fill image with color
+        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
+
+        // add image border when needed
+        $this->addImageBorder($resource, $border);
+
+        // save image resource to a file
+        \imagepng($resource, $path, 0);
 
         return $path;
     }
 
     /**
-     * @return string
+     * @param     $original
+     * @param int $border
      */
-    public function createCroppaleBMP(): string
+    function addImageBorder(&$original, int $border): void
     {
-        $path = $this->getTempFile();
+        if ($border <= 0) {
+            return;
+        }
 
-        \imagebmp(\imagecreatetruecolor(1, 1), $path, false);
+        // original resource dimensions
+        $originalWidth = \imagesx($original);
+        $originalHeight = \imagesy($original);
 
-        return $path;
+        // new resource dimensions
+        $resourceWidth = $originalWidth + (2 * $border);
+        $resourceHeight = $originalHeight + (2 * $border);
+
+        $resource = \imagecreatetruecolor($resourceWidth, $resourceHeight);
+        $color = \imagecolorallocate($resource, 255, 255, 255);
+
+        // fill image with color
+        \imagefilledrectangle($resource, 0, 0, $resourceWidth, $resourceHeight, $color);
+
+        // modify resource to include border
+        \imagecopyresized(
+            $resource,
+            $original,
+            $border,
+            $border,
+            0,
+            0,
+            $originalWidth,
+            $originalHeight,
+            $resourceWidth,
+            $resourceHeight
+        );
+
+        // replace original resource with one that includes border
+        $original = $resource;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOffset(): int
+    {
+        return $this->offset;
     }
 
     /**

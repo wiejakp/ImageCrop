@@ -46,7 +46,7 @@ class PNGReaderTest extends TestImageCase
         $this->core->setReader(new PNGReader(new ReaderManager($this->core)));
         $this->core->setWriter(new PNGWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->data = \file_get_contents($this->createEmptyPNG());
+        $this->data = \file_get_contents($this->createPNG());
 
         \file_put_contents($this->path, $this->data);
     }

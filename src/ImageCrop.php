@@ -146,26 +146,26 @@ class ImageCrop
     public function cropTop(): self
     {
         $reader = $this->getReaderManager()->getReader();
-        $original = $reader->getResource();
+        $resource = $reader->getResource();
         $top = 0;
 
-        for (; $top < \imagesy($original); ++$top) {
-            for ($x = 0; $x < \imagesx($original); ++$x) {
-                if (false === $this->isColorMatch($original, $x, $top)) {
+        for (; $top < \imagesy($resource); ++$top) {
+            for ($x = 0; $x < \imagesx($resource); ++$x) {
+                if (false === $this->isColorMatch($resource, $x, $top)) {
                     break 2;
                 }
             }
         }
 
-        $newWidth = \imagesx($original);
-        $newHeight = \imagesy($original) - $top;
+        $newWidth = \imagesx($resource);
+        $newHeight = \imagesy($resource) - $top;
 
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
         }
 
         $modified = \imagecrop(
-            $original,
+            $resource,
             ['x' => 0, 'y' => $top, 'width' => $newWidth, 'height' => $newHeight]
         );
 
@@ -182,26 +182,26 @@ class ImageCrop
     public function cropRight(): self
     {
         $reader = $this->getReaderManager()->getReader();
-        $original = $reader->getResource();
+        $resource = $reader->getResource();
         $right = 0;
 
-        for (; $right < \imagesx($original); ++$right) {
-            for ($y = 0; $y < \imagesy($original); ++$y) {
-                if (false === $this->isColorMatch($original, \imagesx($original) - $right, $y)) {
+        for (; $right <= \imagesx($resource); ++$right) {
+            for ($y = 0; $y < \imagesy($resource); ++$y) {
+                if (false === $this->isColorMatch($resource, \imagesx($resource) - $right - 1, $y)) {
                     break 2;
                 }
             }
         }
 
-        $newWidth = \imagesx($original) - $right;
-        $newHeight = \imagesy($original);
+        $newWidth = \imagesx($resource) - $right;
+        $newHeight = \imagesy($resource);
 
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
         }
 
         $modified = \imagecrop(
-            $original,
+            $resource,
             ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
@@ -218,26 +218,26 @@ class ImageCrop
     public function cropBottom(): self
     {
         $reader = $this->getReaderManager()->getReader();
-        $original = $reader->getResource();
+        $resource = $reader->getResource();
         $bottom = 0;
 
-        for (; $bottom < \imagesy($original); ++$bottom) {
-            for ($x = 0; $x < \imagesx($original); ++$x) {
-                if (false === $this->isColorMatch($original, $x, \imagesy($original) - $bottom - 1)) {
+        for (; $bottom < \imagesy($resource); ++$bottom) {
+            for ($x = 0; $x < \imagesx($resource); ++$x) {
+                if (false === $this->isColorMatch($resource, $x, \imagesy($resource) - $bottom - 1)) {
                     break 2;
                 }
             }
         }
 
-        $newWidth = \imagesx($original);
-        $newHeight = \imagesy($original) - $bottom;
+        $newWidth = \imagesx($resource);
+        $newHeight = \imagesy($resource) - $bottom;
 
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
         }
 
         $modified = \imagecrop(
-            $original,
+            $resource,
             ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
@@ -254,26 +254,26 @@ class ImageCrop
     public function cropLeft(): self
     {
         $reader = $this->getReaderManager()->getReader();
-        $original = $reader->getResource();
+        $resource = $reader->getResource();
         $left = 0;
 
-        for (; $left < \imagesx($original); ++$left) {
-            for ($y = 0; $y < \imagesy($original); ++$y) {
-                if (false === $this->isColorMatch($original, $left, $y)) {
+        for (; $left < \imagesx($resource); ++$left) {
+            for ($y = 0; $y < \imagesy($resource); ++$y) {
+                if (false === $this->isColorMatch($resource, $left, $y)) {
                     break 2;
                 }
             }
         }
 
-        $newWidth = \imagesx($original) - $left;
-        $newHeight = \imagesy($original);
+        $newWidth = \imagesx($resource) - $left;
+        $newHeight = \imagesy($resource);
 
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
         }
 
         $modified = \imagecrop(
-            $original,
+            $resource,
             ['x' => $left, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
         );
 
