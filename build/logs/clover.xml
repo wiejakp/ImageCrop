@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1569219377">
-  <project timestamp="1569219377">
+<coverage generated="1569219871">
+  <project timestamp="1569219871">
     <package name="wiejakp\ImageCrop\Exception">
       <file name="/Users/pwiejak/sites/ImageCrop/src/Exception/DoNotCallDirectlyException.php">
         <class name="wiejakp\ImageCrop\Exception\DoNotCallDirectlyException" namespace="wiejakp\ImageCrop\Exception">
