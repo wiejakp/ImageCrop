@@ -46,7 +46,7 @@ class BMPReaderTest extends TestImageCase
         $this->core->setReader(new BMPReader(new ReaderManager($this->core)));
         $this->core->setWriter(new BMPWriter(new WriterManager($this->core)));
         $this->path = $this->core->getWriter()->getPath();
-        $this->data = \file_get_contents($this->createEmptyBMP());
+        $this->data = \file_get_contents($this->createBMP());
 
         \file_put_contents($this->path, $this->data);
     }
