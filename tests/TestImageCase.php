@@ -28,16 +28,6 @@ class TestImageCase extends TestCase
     /**
      * @param int|null $size
      * @param int|null $border
-     */
-    private function init(?int $size, ?int $border): void
-    {
-        $this->size = null === $size ? $this->getSize() : $size;
-        $this->border = null === $border ? $this->getBorder() : $border;
-    }
-
-    /**
-     * @param int|null $size
-     * @param int|null $border
      *
      * @return string
      */
@@ -169,6 +159,7 @@ class TestImageCase extends TestCase
     public function setSize(int $size): self
     {
         $this->size = $size;
+
         return $this;
     }
 
@@ -188,6 +179,7 @@ class TestImageCase extends TestCase
     public function setBorder(int $border): self
     {
         $this->border = $border;
+
         return $this;
     }
 
@@ -202,6 +194,16 @@ class TestImageCase extends TestCase
     }
 
     /**
+     * @param int|null $size
+     * @param int|null $border
+     */
+    private function init(?int $size, ?int $border): void
+    {
+        $this->size = null === $size ? $this->getSize() : $size;
+        $this->border = null === $border ? $this->getBorder() : $border;
+    }
+
+    /**
      * @return false|resource
      */
     private function getImageResource()
@@ -210,7 +212,7 @@ class TestImageCase extends TestCase
         $size = $this->getSize();
         $border = $this->getBorder();
 
-        if ($size === 0) {
+        if (0 === $size) {
             $rgb = [255, 255, 255];
             $size = 1;
             $border = $border === 0 ? 0 : $border - 1;
