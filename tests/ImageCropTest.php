@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace wiejakp\ImageCrop\Test;
 
+use DataURI\Data;
+use DataURI\Dumper;
 use ReflectionProperty;
 use wiejakp\ImageCrop\ImageCrop;
 use wiejakp\ImageCrop\Manager\ReaderManager;
@@ -183,6 +185,45 @@ class ImageCropTest extends TestImageCase
     /**
      * @return void
      */
+    public function testCrop(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // configure image reader and writer
+        $core
+            ->setReader(JPEGReader::class)
+            ->setWriter(JPEGWriter::class);
+
+        // get resource file path
+        $path = $core->getWriter()->getPath();
+
+        // load resource into a reader
+        $core->getReader()->loadFromPath($this->createJPEG());
+
+        // save original image to the drive
+        $core->getWriter()->write();
+
+        // get size of original resource
+        list($originalWidth, $originalHeight) = \getimagesize($path);
+
+        // perform crop
+        $core->crop();
+
+        // save cropped image to the drive
+        $core->getWriter()->write();
+
+        // get size of cropped resource
+        list($croppedWidth, $croppedHeight) = \getimagesize($path);
+
+        // perform tests
+        $this->assertSame($croppedWidth, ($originalWidth - (2 * $this->getBorder())));
+        $this->assertSame($croppedHeight, ($originalHeight - (2 * $this->getBorder())));
+    }
+
+    /**
+     * @return void
+     */
     public function testCropTop(): void
     {
         // initialize library core
@@ -197,7 +238,7 @@ class ImageCropTest extends TestImageCase
         $path = $core->getWriter()->getPath();
 
         // load resource into a reader
-        $core->getReader()->loadFromPath($this->createJPEG($this->getOffset()));
+        $core->getReader()->loadFromPath($this->createJPEG());
 
         // save original image to the drive
         $core->getWriter()->write();
@@ -216,7 +257,7 @@ class ImageCropTest extends TestImageCase
 
         // perform tests
         $this->assertSame($croppedWidth, $originalWidth);
-        $this->assertSame($croppedHeight, ($originalHeight - $this->getOffset()));
+        $this->assertSame($croppedHeight, ($originalHeight - $this->getBorder()));
     }
 
     /**
@@ -236,7 +277,7 @@ class ImageCropTest extends TestImageCase
         $path = $core->getWriter()->getPath();
 
         // load resource into a reader
-        $core->getReader()->loadFromPath($this->createJPEG($this->getOffset()));
+        $core->getReader()->loadFromPath($this->createJPEG());
 
         // save original image to the drive
         $core->getWriter()->write();
@@ -254,7 +295,7 @@ class ImageCropTest extends TestImageCase
         list($croppedWidth, $croppedHeight) = \getimagesize($path);
 
         // perform tests
-        $this->assertSame($croppedWidth, ($originalWidth - $this->getOffset()));
+        $this->assertSame($croppedWidth, ($originalWidth - $this->getBorder()));
         $this->assertSame($croppedHeight, $originalHeight);
     }
 
@@ -275,7 +316,7 @@ class ImageCropTest extends TestImageCase
         $path = $core->getWriter()->getPath();
 
         // load resource into a reader
-        $core->getReader()->loadFromPath($this->createJPEG($this->getOffset()));
+        $core->getReader()->loadFromPath($this->createJPEG());
 
         // save original image to the drive
         $core->getWriter()->write();
@@ -294,7 +335,7 @@ class ImageCropTest extends TestImageCase
 
         // perform tests
         $this->assertSame($croppedWidth, $originalWidth);
-        $this->assertSame($croppedHeight, ($originalHeight - $this->getOffset()));
+        $this->assertSame($croppedHeight, ($originalHeight - $this->getBorder()));
     }
 
     /**
@@ -314,7 +355,7 @@ class ImageCropTest extends TestImageCase
         $path = $core->getWriter()->getPath();
 
         // load resource into a reader
-        $core->getReader()->loadFromPath($this->createJPEG($this->getOffset()));
+        $core->getReader()->loadFromPath($this->createJPEG());
 
         // save original image to the drive
         $core->getWriter()->write();
@@ -332,8 +373,154 @@ class ImageCropTest extends TestImageCase
         list($croppedWidth, $croppedHeight) = \getimagesize($path);
 
         // perform tests
-        $this->assertSame($croppedWidth, ($originalWidth - $this->getOffset()));
+        $this->assertSame($croppedWidth, ($originalWidth - $this->getBorder()));
         $this->assertSame($croppedHeight, $originalHeight);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCropTopEmpty(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // configure image reader and writer
+        $core
+            ->setReader(JPEGReader::class)
+            ->setWriter(JPEGWriter::class);
+
+        // load resource into a reader
+        $core->getReader()->loadFromPath($this->createJPEG(0, 1));
+
+        // perform crop
+        $core->cropTop();
+
+        $this->assertTrue($core->isEmpty());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCropRightEmpty(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // configure image reader and writer
+        $core
+            ->setReader(JPEGReader::class)
+            ->setWriter(JPEGWriter::class);
+
+        // load resource into a reader
+        $core->getReader()->loadFromPath($this->createJPEG(0, 1));
+
+        // perform crop
+        $core->cropRight();
+
+        $this->assertTrue($core->isEmpty());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCropBottomEmpty(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // configure image reader and writer
+        $core
+            ->setReader(JPEGReader::class)
+            ->setWriter(JPEGWriter::class);
+
+        // load resource into a reader
+        $core->getReader()->loadFromPath($this->createJPEG(0, 1));
+
+        // perform crop
+        $core->cropBottom();
+
+        $this->assertTrue($core->isEmpty());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCropLeftEmpty(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // configure image reader and writer
+        $core
+            ->setReader(JPEGReader::class)
+            ->setWriter(JPEGWriter::class);
+
+        // load resource into a reader
+        $core->getReader()->loadFromPath($this->createJPEG(0, 1));
+
+        // perform crop
+        $core->cropLeft();
+
+        $this->assertTrue($core->isEmpty());
+    }
+
+    /**
+     * @return void
+     */
+    public function testData(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // configure image reader and writer
+        $core
+            ->setReader(JPEGReader::class)
+            ->setWriter(JPEGWriter::class);
+
+        // get resource file path
+        $path = $core->getWriter()->getPath();
+
+        // load resource into a reader
+        $core->getReader()->loadFromPath($this->createJPEG());
+
+        // save original image to the drive
+        $core->getWriter()->write();
+
+        $expected = \file_get_contents($path);
+        $actual = $core->getData();
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function testDataUri(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // configure image reader and writer
+        $core
+            ->setReader(JPEGReader::class)
+            ->setWriter(JPEGWriter::class);
+
+        // get resource file path
+        $path = $core->getWriter()->getPath();
+
+        // load resource into a reader
+        $core->getReader()->loadFromPath($this->createJPEG());
+
+        // save original image to the drive
+        $core->getWriter()->write();
+
+        $expected = Dumper::dump(
+            new Data(\file_get_contents($path), $core->getReaderManager()->getDataMimeType($path))
+        );
+        $actual = $core->getDataUri();
+
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -371,6 +558,6 @@ class ImageCropTest extends TestImageCase
         $property = new ReflectionProperty(ImageCrop::class, 'empty');
         $property->setAccessible(true);
         $property->setValue($core, true);
-        $this->assertSame(true, $core->isEmpty());
+        $this->assertTrue($core->isEmpty());
     }
 }

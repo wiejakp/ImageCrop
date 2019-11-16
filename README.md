@@ -38,10 +38,7 @@ $imageCrop = (new ImageCrop())
 $imageCrop->getReader()->loadFromPath($imagePath);
 
 // perform cropping actions
-$imageCrop->cropTop();
-$imageCrop->cropRight();
-$imageCrop->cropBottom();
-$imageCrop->cropLeft();
+$imageCrop->crop();
 
 // skip images that appear to be empty
 if (false === $imageCrop->isEmpty()) {
@@ -50,6 +47,8 @@ if (false === $imageCrop->isEmpty()) {
    $imageCrop->getWriter()->write();
 
    // do stuff with $imageCrop->getData() or $imageCrop->getDataUri()
+   $anchor = \sprintf('<a href="$s">anchor</a>', $imageCrop->getDataUri());
+   ...
 }
 ```
 

@@ -18,25 +18,35 @@ class TestImageCase extends TestCase
     /**
      * @var int
      */
-    private $offset = 5;
+    private $size = 5;
 
     /**
-     * @param int $border
+     * @var int
+     */
+    private $border = 5;
+
+    /**
+     * @param int|null $size
+     * @param int|null $border
+     */
+    private function init(?int $size, ?int $border): void
+    {
+        $this->size = null === $size ? $this->getSize() : $size;
+        $this->border = null === $border ? $this->getBorder() : $border;
+    }
+
+    /**
+     * @param int|null $size
+     * @param int|null $border
      *
      * @return string
      */
-    public function createBMP(int $border = 0): string
+    public function createBMP(int $size = null, int $border = null): string
     {
+        $this->init($size, $border);
+
+        $resource = $this->getImageResource();
         $path = $this->getTempFile();
-
-        $resource = \imagecreatetruecolor($this->offset, $this->offset);
-        $color = \imagecolorallocate($resource, 0, 0, 0);
-
-        // fill image with color
-        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
-
-        // add image border when needed
-        $this->addImageBorder($resource, $border);
 
         // save image resource to a file
         \imagebmp($resource, $path, false);
@@ -45,22 +55,17 @@ class TestImageCase extends TestCase
     }
 
     /**
-     * @param int $border
+     * @param int|null $size
+     * @param int|null $border
      *
      * @return string
      */
-    public function createGIF(int $border = 0): string
+    public function createGIF(int $size = null, int $border = null): string
     {
+        $this->init($size, $border);
+
+        $resource = $this->getImageResource();
         $path = $this->getTempFile();
-
-        $resource = \imagecreatetruecolor($this->offset, $this->offset);
-        $color = \imagecolorallocate($resource, 0, 0, 0);
-
-        // fill image with color
-        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
-
-        // add image border when needed
-        $this->addImageBorder($resource, $border);
 
         // save image resource to a file
         \imagegif($resource, $path);
@@ -69,22 +74,17 @@ class TestImageCase extends TestCase
     }
 
     /**
-     * @param int $border
+     * @param int|null $size
+     * @param int|null $border
      *
      * @return string
      */
-    public function createJPEG(int $border = 0): string
+    public function createJPEG(int $size = null, int $border = null): string
     {
+        $this->init($size, $border);
+
+        $resource = $this->getImageResource();
         $path = $this->getTempFile();
-
-        $resource = \imagecreatetruecolor($this->offset, $this->offset);
-        $color = \imagecolorallocate($resource, 0, 0, 0);
-
-        // fill image with color
-        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
-
-        // add image border when needed
-        $this->addImageBorder($resource, $border);
 
         // save image resource to a file
         \imagejpeg($resource, $path, 100);
@@ -93,22 +93,17 @@ class TestImageCase extends TestCase
     }
 
     /**
-     * @param int $border
+     * @param int|null $size
+     * @param int|null $border
      *
      * @return string
      */
-    public function createPNG(int $border = 0): string
+    public function createPNG(int $size = null, int $border = null): string
     {
+        $this->init($size, $border);
+
+        $resource = $this->getImageResource();
         $path = $this->getTempFile();
-
-        $resource = \imagecreatetruecolor($this->offset, $this->offset);
-        $color = \imagecolorallocate($resource, 0, 0, 0);
-
-        // fill image with color
-        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
-
-        // add image border when needed
-        $this->addImageBorder($resource, $border);
 
         // save image resource to a file
         \imagepng($resource, $path, 0);
@@ -161,9 +156,39 @@ class TestImageCase extends TestCase
     /**
      * @return int
      */
-    public function getOffset(): int
+    public function getSize(): int
     {
-        return $this->offset;
+        return $this->size;
+    }
+
+    /**
+     * @param int $size
+     *
+     * @return self
+     */
+    public function setSize(int $size): self
+    {
+        $this->size = $size;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBorder(): int
+    {
+        return $this->border;
+    }
+
+    /**
+     * @param int $border
+     *
+     * @return self
+     */
+    public function setBorder(int $border): self
+    {
+        $this->border = $border;
+        return $this;
     }
 
     /**
@@ -174,5 +199,32 @@ class TestImageCase extends TestCase
         $path = \tempnam(\sys_get_temp_dir(), \sprintf('%s_', 'image'));
 
         return $path;
+    }
+
+    /**
+     * @return false|resource
+     */
+    private function getImageResource()
+    {
+        $rgb = [0, 0, 0];
+        $size = $this->getSize();
+        $border = $this->getBorder();
+
+        if ($size === 0) {
+            $rgb = [255, 255, 255];
+            $size = 1;
+            $border = $border === 0 ? 0 : $border - 1;
+        }
+
+        $resource = \imagecreatetruecolor($size, $size);
+        $color = \imagecolorallocate($resource, $rgb[0], $rgb[1], $rgb[2]);
+
+        // fill image with color
+        \imagefilledrectangle($resource, 0, 0, 0, 0, $color);
+
+        // add image border when needed
+        $this->addImageBorder($resource, $border);
+
+        return $resource;
     }
 }
