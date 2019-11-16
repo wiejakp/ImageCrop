@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.0.6] - 2019-11-17
+
+* todo
+
 ## [1.0.5] - 2019-09-23
 
 ### Notes
@@ -52,6 +56,7 @@ All notable changes to this project will be documented in this file.
 * Initial release.
 
 
+[1.0.6]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.6
 [1.0.5]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.5
 [1.0.4]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.4
 [1.0.3]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.3
