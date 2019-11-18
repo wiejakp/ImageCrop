@@ -15,4 +15,6 @@ namespace wiejakp\ImageCrop\Manager;
  */
 class ReaderManager extends AbstractManager
 {
+    /** @var string */
+    const LIBRARY = 'Reader';
 }

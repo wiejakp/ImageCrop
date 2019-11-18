@@ -15,4 +15,6 @@ namespace wiejakp\ImageCrop\Manager;
  */
 class WriterManager extends AbstractManager
 {
+    /** @var string */
+    const LIBRARY = 'Writer';
 }

@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace wiejakp\ImageCrop\Manager;
 
+use Composer\Autoload\ClassLoader;
+use Composer\Autoload\ClassMapGenerator;
 use DataURI\Data;
 use DataURI\Dumper;
 use wiejakp\ImageCrop\Exception\NullReaderException;
@@ -301,5 +303,58 @@ abstract class AbstractManager
         $length = \strlen($namespace);
 
         return \substr($class, 0, $length) === $namespace && \class_exists($class);
+    }
+
+    /**
+     * @param string $library
+     *
+     * @return string
+     */
+    protected function getLibraryNamespace(string $library): string
+    {
+        return \sprintf('%s\\%s', $this->namespace, $library);
+    }
+
+    /**
+     * @param string $library
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getLibraries(string $library): array
+    {
+
+        $namespace = $this->getLibraryNamespace($library);
+        $directory = \sprintf('%s/%s/', $this->getCore()->getRoot(), $library);
+        $libraries = [];
+
+        $classes = \array_keys(\array_filter(ClassMapGenerator::createMap($directory),
+            function (string $class) use ($namespace, $directory) {
+                $testClass = \strpos($class, $namespace) === 0;
+                $testAbstract = false === (new \ReflectionClass($class))->isAbstract();
+
+                return $testClass && $testAbstract;
+            }, ARRAY_FILTER_USE_KEY));
+
+        switch ($library) {
+            case ReaderManager::LIBRARY:
+                $libraries = \array_map(function (string $class) {
+                    return new $class($this);
+                }, $classes);
+                break;
+
+            case WriterManager::LIBRARY:
+                $libraries = \array_map(function (string $class) {
+                    return new $class($this);
+                }, $classes);
+                break;
+
+            default:
+                throw new \Exception('invalid library');
+        }
+
+
+        var_dump($libraries);
+        die();
     }
 }

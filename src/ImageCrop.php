@@ -29,6 +29,11 @@ use wiejakp\ImageCrop\Writer\PNGWriter;
 class ImageCrop
 {
     /**
+     * @var string
+     */
+    private $root;
+
+    /**
      * @var ReaderManager
      */
     private $readerManager;
@@ -53,8 +58,17 @@ class ImageCrop
      */
     public function __construct()
     {
+        $this->root = __DIR__;
         $this->readerManager = new ReaderManager($this);
         $this->writerManager = new WriterManager($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoot(): string
+    {
+        return $this->root;
     }
 
     /**
