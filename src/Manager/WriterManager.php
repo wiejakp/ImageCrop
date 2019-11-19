@@ -55,7 +55,7 @@ class WriterManager extends AbstractManager
     /**
      * @param string $class
      *
-     * @return AbstractManager
+     * @return self
      */
     public function setWriter(string $class): self
     {

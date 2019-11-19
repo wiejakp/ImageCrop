@@ -55,7 +55,7 @@ class ReaderManager extends AbstractManager
     /**
      * @param string $class
      *
-     * @return AbstractManager
+     * @return self
      */
     public function setReader(string $class): self
     {

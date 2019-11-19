@@ -92,7 +92,7 @@ abstract class AbstractManager
 
         $path = \tempnam(\sys_get_temp_dir(), \sprintf('%s_', $this->getShortName($class)));
 
-        return $path;
+        return $path ? $path : '';
     }
 
     /**
