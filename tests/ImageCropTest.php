@@ -136,16 +136,6 @@ class ImageCropTest extends TestImageCase
         $this->assertSame(JPEGReader::class, \get_class($core->getReader()));
         $core->setReader(PNGReader::class);
         $this->assertSame(PNGReader::class, \get_class($core->getReader()));
-
-        // test set readers by reader object
-        $core->setReader(new BMPReader($manager));
-        $this->assertSame(BMPReader::class, \get_class($core->getReader()));
-        $core->setReader(new GIFReader($manager));
-        $this->assertSame(GIFReader::class, \get_class($core->getReader()));
-        $core->setReader(new JPEGReader($manager));
-        $this->assertSame(JPEGReader::class, \get_class($core->getReader()));
-        $core->setReader(new PNGReader($manager));
-        $this->assertSame(PNGReader::class, \get_class($core->getReader()));
     }
 
     /**
@@ -169,16 +159,6 @@ class ImageCropTest extends TestImageCase
         $core->setWriter(JPEGWriter::class);
         $this->assertSame(JPEGWriter::class, \get_class($core->getWriter()));
         $core->setWriter(PNGWriter::class);
-        $this->assertSame(PNGWriter::class, \get_class($core->getWriter()));
-
-        // test set writers by writer object
-        $core->setWriter(new BMPWriter($manager));
-        $this->assertSame(BMPWriter::class, \get_class($core->getWriter()));
-        $core->setWriter(new GIFWriter($manager));
-        $this->assertSame(GIFWriter::class, \get_class($core->getWriter()));
-        $core->setWriter(new JPEGWriter($manager));
-        $this->assertSame(JPEGWriter::class, \get_class($core->getWriter()));
-        $core->setWriter(new PNGWriter($manager));
         $this->assertSame(PNGWriter::class, \get_class($core->getWriter()));
     }
 

@@ -39,6 +39,23 @@ class AbstractManagerTest extends MockeryTestCase
         // create reflection property object for ImageCrop::$reader
         $manager = $core->getReaderManager();
 
-        $libraries = $manager->getLibraries($manager::LIBRARY);
+        // get list of library objects
+        $libraries = $manager->getReaders();
+
+        $this->assertNotEmpty($libraries);
+    }
+
+    public function testWriters(): void
+    {
+        // initialize library core
+        $core = new ImageCrop();
+
+        // create reflection property object for ImageCrop::$writer
+        $manager = $core->getWriterManager();
+
+        // get list of library objects
+        $libraries = $manager->getWriters();
+
+        $this->assertNotEmpty($libraries);
     }
 }
