@@ -83,8 +83,6 @@ abstract class AbstractManager
      * @param string|null $class
      *
      * @return string
-     *
-     * @throws \Exception
      */
     public function getTempFile(?string $class = null): string
     {
@@ -93,10 +91,6 @@ abstract class AbstractManager
         }
 
         $path = \tempnam(\sys_get_temp_dir(), \sprintf('%s_', $this->getShortName($class)));
-
-        if (false === $path) {
-            throw new \Exception('Unable to fetch a temporary file.');
-        }
 
         return $path;
     }
@@ -149,17 +143,6 @@ abstract class AbstractManager
 
         return $mimeType ? $mimeType : null;
     }
-
-    /**
-     * @param string $class
-     *
-     * @return bool
-     */
-    protected function isWriterClass(string $class): bool
-    {
-        return $this->isLibraryClass('Writer', $class);
-    }
-
 
     /**
      * @param string $library

@@ -12,6 +12,14 @@ namespace wiejakp\ImageCrop\Test\Manager;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use wiejakp\ImageCrop\ImageCrop;
+use wiejakp\ImageCrop\Reader\BMPReader;
+use wiejakp\ImageCrop\Reader\GIFReader;
+use wiejakp\ImageCrop\Reader\JPEGReader;
+use wiejakp\ImageCrop\Reader\PNGReader;
+use wiejakp\ImageCrop\Writer\BMPWriter;
+use wiejakp\ImageCrop\Writer\GIFWriter;
+use wiejakp\ImageCrop\Writer\JPEGWriter;
+use wiejakp\ImageCrop\Writer\PNGWriter;
 
 /**
  * Class AbstractManagerTest
@@ -19,18 +27,8 @@ use wiejakp\ImageCrop\ImageCrop;
 class AbstractManagerTest extends MockeryTestCase
 {
     /**
-     * @var ImageCrop
+     * @inheritDoc
      */
-    private $core;
-
-    /**
-     * @return void
-     */
-    public function setUp(): void
-    {
-        $this->core = new ImageCrop();
-    }
-
     public function testReaders(): void
     {
         // initialize library core
@@ -45,6 +43,9 @@ class AbstractManagerTest extends MockeryTestCase
         $this->assertNotEmpty($libraries);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function testWriters(): void
     {
         // initialize library core
@@ -57,5 +58,67 @@ class AbstractManagerTest extends MockeryTestCase
         $libraries = $manager->getWriters();
 
         $this->assertNotEmpty($libraries);
+    }
+
+    /**
+     * @dataProvider readers
+     *
+     * @param string $library
+     */
+    public function testTempFileReaders(string $library): void
+    {
+        $manager = (new ImageCrop())->getReaderManager();
+
+        // test empty
+        $path = $manager->getTempFile();
+        $this->assertNotEmpty($path);
+        $this->assertFileExists($path);
+
+        // test filled
+        $path = $manager->getTempFile($library);
+        $this->assertNotEmpty($path);
+        $this->assertFileExists($path);
+    }
+
+    /**
+     * @dataProvider writers
+     *
+     * @param string $library
+     */
+    public function testTempFileWriters(string $library): void
+    {
+        $manager = (new ImageCrop())->getWriterManager();
+
+        // test empty
+        $path = $manager->getTempFile();
+        $this->assertNotEmpty($path);
+        $this->assertFileExists($path);
+
+        // test filled
+        $path = $manager->getTempFile($library);
+        $this->assertNotEmpty($path);
+        $this->assertFileExists($path);
+    }
+
+    /**
+     * @return iterable
+     */
+    public function readers(): iterable
+    {
+        yield [BMPReader::class];
+        yield [GIFReader::class];
+        yield [JPEGReader::class];
+        yield [PNGReader::class];
+    }
+
+    /**
+     * @return iterable
+     */
+    public function writers(): iterable
+    {
+        yield [BMPWriter::class];
+        yield [GIFWriter::class];
+        yield [JPEGWriter::class];
+        yield [PNGWriter::class];
     }
 }
