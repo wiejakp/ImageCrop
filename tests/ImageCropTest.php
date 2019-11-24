@@ -124,9 +124,6 @@ class ImageCropTest extends TestImageCase
         // initialize library core
         $core = new ImageCrop();
 
-        // create reflection property object for ImageCrop::$reader
-        $manager = $core->getReaderManager();
-
         // test set readers by reader class name
         $core->setReader(BMPReader::class);
         $this->assertSame(BMPReader::class, \get_class($core->getReader()));
@@ -147,9 +144,6 @@ class ImageCropTest extends TestImageCase
     {
         // initialize library core
         $core = new ImageCrop();
-
-        // create reflection property object for ImageCrop::$writer
-        $manager = $core->getWriterManager();
 
         // test set writers by writer class name
         $core->setWriter(BMPWriter::class);

@@ -25,9 +25,9 @@ composer require wiejakp/image-crop
 ```
 
 
-## Usage
+## Basic Usage
 
-```              
+```php        
 $imagePath = 'image.jpeg';
   
 $imageCrop = (new ImageCrop())
@@ -52,6 +52,42 @@ if (false === $imageCrop->isEmpty()) {
 }
 ```
 
+
+## Reader And Writers
+
+You can mix nad match what image resource is being loaded and what image resource is being generated out.
+
+##### BMP Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(BMPReader::class)
+   ->setWriter(BMPWriter::class);
+```
+
+##### GIF Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(GIFReader::class)
+   ->setWriter(GIFWriter::class);
+```
+
+##### JPEG Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(JPEGReader::class)
+   ->setWriter(JPEGWriter::class);
+```
+
+##### PNG Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(PNGReader::class)
+   ->setWriter(PNGWriter::class);
+```
 
 ## Documentation
 

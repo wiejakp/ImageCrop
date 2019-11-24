@@ -2,7 +2,7 @@
     "name": "wiejakp/image-crop",
     "description": "Image cropping helper for PHP.",
     "type": "library",
-    "keywords": ["php"],
+    "keywords": ["php", "library", "image"],
     "homepage": "https://github.com/wiejakp/ImageCrop",
     "license": "MIT",
     "authors": [

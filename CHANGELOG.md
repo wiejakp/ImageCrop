@@ -3,9 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 
-## [1.0.6] - 2019-11-17
+## [1.0.6] - 2019-11-25
 
-* todo
+* Adding and updating code unit tests.
+* Readme changes.
 
 ## [1.0.5] - 2019-09-23
 
