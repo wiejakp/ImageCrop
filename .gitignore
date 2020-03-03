@@ -1,4 +1,6 @@
 .phpunit.result.cache
 /phpunit.xml
-/vendor/
+build
+vendor
+composer.lock
 .DS_Store

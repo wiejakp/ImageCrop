@@ -43,8 +43,8 @@ class BMPReaderTest extends TestImageCase
     public function setUp(): void
     {
         $this->core = new ImageCrop();
-        $this->core->setReader(new BMPReader(new ReaderManager($this->core)));
-        $this->core->setWriter(new BMPWriter(new WriterManager($this->core)));
+        $this->core->setReader(BMPReader::class);
+        $this->core->setWriter(BMPWriter::class);
         $this->path = $this->core->getWriter()->getPath();
         $this->data = \file_get_contents($this->createBMP());
 

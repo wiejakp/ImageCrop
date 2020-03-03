@@ -43,8 +43,8 @@ class GIFReaderTest extends TestImageCase
     public function setUp(): void
     {
         $this->core = new ImageCrop();
-        $this->core->setReader(new GIFReader(new ReaderManager($this->core)));
-        $this->core->setWriter(new GIFWriter(new WriterManager($this->core)));
+        $this->core->setReader(GIFReader::class);
+        $this->core->setWriter(GIFWriter::class);
         $this->path = $this->core->getWriter()->getPath();
         $this->data = \file_get_contents($this->createGIF());
 

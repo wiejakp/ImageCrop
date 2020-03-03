@@ -43,8 +43,8 @@ class PNGReaderTest extends TestImageCase
     public function setUp(): void
     {
         $this->core = new ImageCrop();
-        $this->core->setReader(new PNGReader(new ReaderManager($this->core)));
-        $this->core->setWriter(new PNGWriter(new WriterManager($this->core)));
+        $this->core->setReader(PNGReader::class);
+        $this->core->setWriter(PNGWriter::class);
         $this->path = $this->core->getWriter()->getPath();
         $this->data = \file_get_contents($this->createPNG());
 

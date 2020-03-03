@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.0.6] - 2019-11-25
+
+* Adding and updating code unit tests.
+* Readme changes.
+
 ## [1.0.5] - 2019-09-23
 
 ### Notes
@@ -45,16 +50,17 @@ All notable changes to this project will be documented in this file.
 * Add easy to implement readers which are using build-in PHP image functions.
 
 
-## [1.0] - 2019-08-19
+## [1.0.0] - 2019-08-19
 
 ### Notes
 
 * Initial release.
 
 
+[1.0.6]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.6
 [1.0.5]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.5
 [1.0.4]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.4
 [1.0.3]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.3
 [1.0.2]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.2
 [1.0.1]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0.1
-[1.0]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0
+[1.0.0]: https://github.com/wiejakp/ImageCrop/releases/tag/v1.0

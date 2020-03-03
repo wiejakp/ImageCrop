@@ -29,6 +29,11 @@ use wiejakp\ImageCrop\Writer\PNGWriter;
 class ImageCrop
 {
     /**
+     * @var string
+     */
+    private $root;
+
+    /**
      * @var ReaderManager
      */
     private $readerManager;
@@ -53,8 +58,17 @@ class ImageCrop
      */
     public function __construct()
     {
+        $this->root = __DIR__;
         $this->readerManager = new ReaderManager($this);
         $this->writerManager = new WriterManager($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoot(): string
+    {
+        return $this->root;
     }
 
     /**
@@ -143,6 +157,19 @@ class ImageCrop
     /**
      * @return self
      */
+    public function crop(): self
+    {
+        $this->cropTop();
+        $this->cropRight();
+        $this->cropBottom();
+        $this->cropLeft();
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
     public function cropTop(): self
     {
         $reader = $this->getReaderManager()->getReader();
@@ -160,17 +187,20 @@ class ImageCrop
         $newWidth = \imagesx($resource);
         $newHeight = \imagesy($resource) - $top;
 
+        $newWidth = $newWidth > 0 ? $newWidth : 0;
+        $newHeight = $newHeight > 0 ? $newHeight : 0;
+
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
-        }
+        } else {
+            $modified = \imagecrop(
+                $resource,
+                ['x' => 0, 'y' => $top, 'width' => $newWidth, 'height' => $newHeight]
+            );
 
-        $modified = \imagecrop(
-            $resource,
-            ['x' => 0, 'y' => $top, 'width' => $newWidth, 'height' => $newHeight]
-        );
-
-        if (false !== $modified) {
-            $reader->setResource($modified);
+            if (false !== $modified) {
+                $reader->setResource($modified);
+            }
         }
 
         return $this;
@@ -196,17 +226,20 @@ class ImageCrop
         $newWidth = \imagesx($resource) - $right;
         $newHeight = \imagesy($resource);
 
+        $newWidth = $newWidth > 0 ? $newWidth : 0;
+        $newHeight = $newHeight > 0 ? $newHeight : 0;
+
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
-        }
+        } else {
+            $modified = \imagecrop(
+                $resource,
+                ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
+            );
 
-        $modified = \imagecrop(
-            $resource,
-            ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
-        );
-
-        if (false !== $modified) {
-            $reader->setResource($modified);
+            if (false !== $modified) {
+                $reader->setResource($modified);
+            }
         }
 
         return $this;
@@ -232,17 +265,20 @@ class ImageCrop
         $newWidth = \imagesx($resource);
         $newHeight = \imagesy($resource) - $bottom;
 
+        $newWidth = $newWidth > 0 ? $newWidth : 0;
+        $newHeight = $newHeight > 0 ? $newHeight : 0;
+
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
-        }
+        } else {
+            $modified = \imagecrop(
+                $resource,
+                ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
+            );
 
-        $modified = \imagecrop(
-            $resource,
-            ['x' => 0, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
-        );
-
-        if (false !== $modified) {
-            $reader->setResource($modified);
+            if (false !== $modified) {
+                $reader->setResource($modified);
+            }
         }
 
         return $this;
@@ -268,17 +304,20 @@ class ImageCrop
         $newWidth = \imagesx($resource) - $left;
         $newHeight = \imagesy($resource);
 
+        $newWidth = $newWidth > 0 ? $newWidth : 0;
+        $newHeight = $newHeight > 0 ? $newHeight : 0;
+
         if (0 === $newWidth || 0 === $newHeight) {
             $this->empty = true;
-        }
+        } else {
+            $modified = \imagecrop(
+                $resource,
+                ['x' => $left, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
+            );
 
-        $modified = \imagecrop(
-            $resource,
-            ['x' => $left, 'y' => 0, 'width' => $newWidth, 'height' => $newHeight]
-        );
-
-        if (false !== $modified) {
-            $reader->setResource($modified);
+            if (false !== $modified) {
+                $reader->setResource($modified);
+            }
         }
 
         return $this;
@@ -309,6 +348,9 @@ class ImageCrop
      */
     private function isColorMatch($resource, int $x, int $y): bool
     {
+        $x = $x > 0 ? $x : 0;
+        $y = $y > 0 ? $y : 0;
+
         list($ar, $ag, $ab, $aa) = \array_values($this->getRGBA());
         list($br, $bg, $bb, $ba) = \array_values(\imagecolorsforindex($resource, \imagecolorat($resource, $x, $y)));
 

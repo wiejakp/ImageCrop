@@ -43,8 +43,8 @@ class JPEGReaderTest extends TestImageCase
     public function setUp(): void
     {
         $this->core = new ImageCrop();
-        $this->core->setReader(new JPEGReader(new ReaderManager($this->core)));
-        $this->core->setWriter(new JPEGWriter(new WriterManager($this->core)));
+        $this->core->setReader(JPEGReader::class);
+        $this->core->setWriter(JPEGWriter::class);
         $this->path = $this->core->getWriter()->getPath();
         $this->data = \file_get_contents($this->createJPEG());
 

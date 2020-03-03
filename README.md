@@ -5,9 +5,8 @@
 [![Software License][badge-license]][license]
 [![PHP Version][badge-php]][php]
 [![Build Status][badge-build]][build]
-[![Coverage Status](https://coveralls.io/repos/github/wiejakp/ImageCrop/badge.svg)](https://coveralls.io/github/wiejakp/ImageCrop)
+[![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
-<!--[![Coverage Status][badge-coverage]][coverage]-->
 
 
 This project adheres to a [Contributor Code of Conduct][conduct]. By
@@ -26,9 +25,9 @@ composer require wiejakp/image-crop
 ```
 
 
-## Usage
+## Basic Usage
 
-```              
+```php        
 $imagePath = 'image.jpeg';
   
 $imageCrop = (new ImageCrop())
@@ -39,10 +38,7 @@ $imageCrop = (new ImageCrop())
 $imageCrop->getReader()->loadFromPath($imagePath);
 
 // perform cropping actions
-$imageCrop->cropTop();
-$imageCrop->cropRight();
-$imageCrop->cropBottom();
-$imageCrop->cropLeft();
+$imageCrop->crop();
 
 // skip images that appear to be empty
 if (false === $imageCrop->isEmpty()) {
@@ -51,9 +47,47 @@ if (false === $imageCrop->isEmpty()) {
    $imageCrop->getWriter()->write();
 
    // do stuff with $imageCrop->getData() or $imageCrop->getDataUri()
+   $anchor = \sprintf('<a href="$s">anchor</a>', $imageCrop->getDataUri());
+   ...
 }
 ```
 
+
+## Reader And Writers
+
+You can mix nad match what image resource is being loaded and what image resource is being generated out.
+
+##### BMP Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(BMPReader::class)
+   ->setWriter(BMPWriter::class);
+```
+
+##### GIF Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(GIFReader::class)
+   ->setWriter(GIFWriter::class);
+```
+
+##### JPEG Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(JPEGReader::class)
+   ->setWriter(JPEGWriter::class);
+```
+
+##### PNG Reader And Writer 
+
+```php        
+$imageCrop = (new ImageCrop())
+   ->setReader(PNGReader::class)
+   ->setWriter(PNGWriter::class);
+```
 
 ## Documentation
 
@@ -78,12 +112,12 @@ more information.
 [documentation]: https://wiejakp.github.io/ImageCrop/
 [contributing]: https://github.com/wiejakp/ImageCrop/blob/master/.github/CONTRIBUTING.md
 
-[badge-source]: http://img.shields.io/badge/source-wiejakp/image-crop.svg?style=flat-square
+[badge-source]: https://img.shields.io/badge/source-wiejakp%2Fimage--crop-brightgreen
 [badge-release]: https://img.shields.io/packagist/v/wiejakp/image-crop.svg?style=flat-square&label=release
 [badge-license]: https://img.shields.io/packagist/l/wiejakp/image-crop.svg?style=flat-square
 [badge-php]: https://img.shields.io/packagist/php-v/wiejakp/image-crop.svg?style=flat-square
 [badge-build]: https://img.shields.io/travis/wiejakp/imagecrop?style=flat-square
-<!--[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/ImageCrop/master.svg?style=flat-square-->
+[badge-coverage]: https://img.shields.io/coveralls/github/wiejakp/ImageCrop
 [badge-downloads]: https://img.shields.io/packagist/dt/wiejakp/image-crop.svg?style=flat-square&colorB=mediumvioletred
 
 [source]: https://github.com/wiejakp/ImageCrop
@@ -91,5 +125,5 @@ more information.
 [license]: https://github.com/wiejakp/ImageCrop/blob/master/LICENSE
 [php]: https://php.net
 [build]: https://travis-ci.org/wiejakp/ImageCrop
-<!--[coverage]: https://coveralls.io/repos/github/wiejakp/ImageCrop/badge.svg?branch=master-->
-[downloads]: https://packagist.org/packages/wiejakp/ImageCrop
+[coverage]: https://coveralls.io/github/wiejakp/ImageCrop?branch=master
+[downloads]: https://packagist.org/packages/wiejakp/image-crop

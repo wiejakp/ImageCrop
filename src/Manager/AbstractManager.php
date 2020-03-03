@@ -10,12 +10,9 @@ declare(strict_types=1);
 
 namespace wiejakp\ImageCrop\Manager;
 
+use Composer\Autoload\ClassMapGenerator;
 use DataURI\Data;
 use DataURI\Dumper;
-use wiejakp\ImageCrop\Exception\NullReaderException;
-use wiejakp\ImageCrop\Exception\NullWriterException;
-use wiejakp\ImageCrop\Exception\ReaderNotFoundException;
-use wiejakp\ImageCrop\Exception\WriterNotFoundException;
 use wiejakp\ImageCrop\ImageCrop;
 use wiejakp\ImageCrop\Reader\AbstractReader;
 use wiejakp\ImageCrop\Reader\BMPReader;
@@ -49,9 +46,19 @@ abstract class AbstractManager
     protected $reader;
 
     /**
+     * @var AbstractReader[]
+     */
+    protected $readers = [];
+
+    /**
      * @var AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter
      */
-    private $writer;
+    protected $writer;
+
+    /**
+     * @var AbstractWriter[]
+     */
+    protected $writers = [];
 
     /**
      * AbstractManager constructor.
@@ -73,157 +80,9 @@ abstract class AbstractManager
     }
 
     /**
-     * @param string $class
-     *
-     * @return AbstractReader
-     *
-     * @throws \Exception
-     */
-    public function findReader(string $class): AbstractReader
-    {
-        if (false === $this->isReaderClass($class)) {
-            throw new ReaderNotFoundException(\sprintf('Provided reader was not found: %s', $class));
-        }
-
-        /**
-         * create new reader object
-         *
-         * @var AbstractReader $reader
-         */
-        $reader = new $class($this);
-
-        return $reader;
-    }
-
-    /**
-     * @return AbstractReader|BMPReader|GIFReader|JPEGReader|PNGReader
-     *
-     * @throws NullReaderException
-     */
-    public function getReader(): AbstractReader
-    {
-        if (null === $this->reader) {
-            throw new NullReaderException();
-        }
-
-        return $this->reader;
-    }
-
-    /**
-     * @param string|BMPReader|GIFReader|JPEGReader|PNGReader $reader
-     *
-     * @return self
-     *
-     * @throws \Exception
-     */
-    public function setReader($reader): self
-    {
-        switch (true) {
-            case \is_string($reader):
-                $this->reader = $this->findReader($reader);
-                break;
-
-            case \is_subclass_of($reader, AbstractReader::class):
-                $this->reader = $reader;
-                break;
-
-            default:
-                throw new \Exception('Suggested Reader is not supported.');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return bool
-     */
-    public function isReaderClass(string $class): bool
-    {
-        return $this->isLibraryClass('Reader', $class);
-    }
-
-
-    /**
-     * @param string $class
-     *
-     * @return AbstractWriter
-     *
-     * @throws \Exception
-     */
-    public function findWriter(string $class): AbstractWriter
-    {
-        if (false === $this->isWriterClass($class)) {
-            throw new WriterNotFoundException(\sprintf('Provided writer was not found: %s', $class));
-        }
-
-        /**
-         * create new writer object
-         *
-         * @var AbstractWriter $writer
-         */
-        $writer = new $class($this);
-
-        return $writer;
-    }
-
-
-    /**
-     * @param string|BMPWriter|GIFWriter|JPEGWriter|PNGWriter $writer
-     *
-     * @return self
-     *
-     * @throws \Exception
-     */
-    public function setWriter($writer): self
-    {
-        switch (true) {
-            case \is_string($writer):
-                $this->writer = $this->findWriter($writer);
-                break;
-
-            case \is_subclass_of($writer, AbstractWriter::class):
-                $this->writer = $writer;
-                break;
-
-            default:
-                throw new \Exception('Suggested Writer is not supported.');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return AbstractWriter|BMPWriter|GIFWriter|JPEGWriter|PNGWriter
-     *
-     * @throws NullWriterException
-     */
-    public function getWriter(): AbstractWriter
-    {
-        if (null === $this->writer) {
-            throw new NullWriterException();
-        }
-
-        return $this->writer;
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return bool
-     */
-    public function isWriterClass(string $class): bool
-    {
-        return $this->isLibraryClass('Writer', $class);
-    }
-
-    /**
      * @param string|null $class
      *
      * @return string
-     *
-     * @throws \Exception
      */
     public function getTempFile(?string $class = null): string
     {
@@ -233,11 +92,7 @@ abstract class AbstractManager
 
         $path = \tempnam(\sys_get_temp_dir(), \sprintf('%s_', $this->getShortName($class)));
 
-        if (false === $path) {
-            throw new \Exception('Unable to fetch a temporary file.');
-        }
-
-        return $path;
+        return $path ? $path : '';
     }
 
     /**
@@ -291,15 +146,76 @@ abstract class AbstractManager
 
     /**
      * @param string $library
+     *
+     * @return array
+     */
+    protected function getManagerLibraries(string $library): array
+    {
+        $classes = $this->getLibraryClassList($library);
+        $objects = $this->getLibraryObjectList($classes);
+
+        return $objects;
+    }
+
+    /**
+     * @param string $library
+     *
+     * @return array
+     */
+    protected function getLibraryClassList(string $library): array
+    {
+        $libraryPath = $this->getLibraryDirectory($library);
+        $libraryClassMap = ClassMapGenerator::createMap($libraryPath);
+
+        // filter out invalid library class maps
+        $libraryClassMap = \array_filter($libraryClassMap, function (string $class) use ($library) {
+            return $this->isLibraryClass($library, $class);
+        }, ARRAY_FILTER_USE_KEY);
+
+        return \array_keys($libraryClassMap);
+    }
+
+    /**
+     * @param array $classes
+     *
+     * @return array
+     */
+    protected function getLibraryObjectList(array $classes): array
+    {
+        $libraries = [];
+
+        foreach ($classes as $class) {
+            $libraries[$class] = new $class($this);
+        }
+
+        return $libraries;
+    }
+
+    /**
+     * @param string $library
      * @param string $class
      *
      * @return bool
      */
-    protected function isLibraryClass(string $library, string $class): bool
+    private function isLibraryClass(string $library, string $class): bool
     {
         $namespace = \sprintf('%s\\%s\\', $this->namespace, $library);
         $length = \strlen($namespace);
 
-        return \substr($class, 0, $length) === $namespace && \class_exists($class);
+        $checkPrefix = \substr($class, 0, $length) === $namespace;
+        $checkExists = \class_exists($class);
+        $checkObject = $checkPrefix && $checkExists && false === (new \ReflectionClass($class))->isAbstract();
+
+        return $checkPrefix && $checkExists && $checkObject;
+    }
+
+    /**
+     * @param string $library
+     *
+     * @return string
+     */
+    private function getLibraryDirectory(string $library): string
+    {
+        return \sprintf('%s/%s/', $this->getCore()->getRoot(), $library);
     }
 }
