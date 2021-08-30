@@ -47,7 +47,7 @@ if (false === $imageCrop->isEmpty()) {
    $imageCrop->getWriter()->write();
 
    // do stuff with $imageCrop->getData() or $imageCrop->getDataUri()
-   $anchor = \sprintf('<a href="$s">anchor</a>', $imageCrop->getDataUri());
+   $anchor = \sprintf('<a href="%s">anchor</a>', $imageCrop->getDataUri());
    ...
 }
 ```
